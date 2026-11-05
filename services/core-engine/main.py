@@ -1,10 +1,12 @@
 """
 Point d'entrée du serveur FastAPI / WebSocket pour HoL AI.
+Compatible Local, Docker, Render ($PORT=10000) et Cloud.
 """
+import os
 import sys
 from pathlib import Path
 
-# Force UTF-8 stdout sur les consoles Windows
+# Force UTF-8 stdout
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -17,15 +19,16 @@ import uvicorn
 
 
 def run():
+    port = int(os.environ.get("PORT", 8000))
     print("=" * 70)
     print("🌌 DÉMARRAGE DU SYSTÈME D'EXPLOITATION SPATIAL 'HoL AI'")
-    print("🌐 URL Cockpit Spatial : http://127.0.0.1:8000")
-    print("📡 WebSocket Gateway   : ws://127.0.0.1:8000/ws/canvas")
+    print(f"🌐 URL Cockpit Spatial : http://0.0.0.0:{port}")
+    print(f"📡 WebSocket Gateway   : ws://0.0.0.0:{port}/ws/canvas")
     print("=" * 70)
     uvicorn.run(
         "src.api.server:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         log_level="info",
         reload=False
     )
