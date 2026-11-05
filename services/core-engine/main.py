@@ -20,17 +20,26 @@ import uvicorn
 
 def run():
     port = int(os.environ.get("PORT", 8000))
-    print("=" * 70)
-    print("🌌 DÉMARRAGE DU SYSTÈME D'EXPLOITATION SPATIAL 'HoL AI'")
-    print(f"🌐 URL Cockpit Spatial : http://0.0.0.0:{port}")
-    print(f"📡 WebSocket Gateway   : ws://0.0.0.0:{port}/ws/canvas")
-    print("=" * 70)
+    print("=" * 70, flush=True)
+    print("🌌 DÉMARRAGE DU SYSTÈME D'EXPLOITATION SPATIAL 'HoL AI'", flush=True)
+    print(f"🌐 URL Cockpit Spatial : http://0.0.0.0:{port}", flush=True)
+    print(f"📡 WebSocket Gateway   : ws://0.0.0.0:{port}/ws/canvas", flush=True)
+    print("=" * 70, flush=True)
+
+    try:
+        from src.api.server import app
+        print("✅ Module 'src.api.server:app' importé avec succès !", flush=True)
+    except Exception as exc:
+        print(f"❌ ERREUR CRITIQUE D'IMPORT : {exc}", flush=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
     uvicorn.run(
-        "src.api.server:app",
+        app,
         host="0.0.0.0",
         port=port,
-        log_level="info",
-        reload=False
+        log_level="info"
     )
 
 

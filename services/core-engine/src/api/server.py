@@ -22,7 +22,13 @@ import html
 import math
 from pydantic import BaseModel, Field, field_validator
 
-import fakeredis.aioredis as fake_aioredis
+try:
+    import fakeredis.aioredis as fake_aioredis
+except (ImportError, AttributeError):
+    try:
+        from fakeredis import aioredis as fake_aioredis
+    except (ImportError, AttributeError):
+        import fakeredis as fake_aioredis
 from src.core.config import settings
 from src.core.contracts import ContextModel, AgentID, ActionType
 from src.broker.stream_bus import StreamBus
@@ -77,7 +83,13 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 Démarrage du cluster multi-agents HoL AI...")
 
     # Bus Redis Streams (avec fallback en mémoire)
-    fake_client = fake_aioredis.FakeRedis(decode_responses=True)
+    if hasattr(fake_aioredis, 'FakeRedis'):
+        fake_client = fake_aioredis.FakeRedis(decode_responses=True)
+    elif hasattr(fake_aioredis, 'FakeAsyncRedis'):
+        fake_client = fake_aioredis.FakeAsyncRedis(decode_responses=True)
+    else:
+        import fakeredis
+        fake_client = fakeredis.FakeRedis(decode_responses=True)
     bus = StreamBus(redis_client=fake_client)
     await bus.connect()
 
@@ -2357,6 +2369,13 @@ async def serve_canvas_cockpit():
     if html_file.exists():
         return HTMLResponse(content=html_file.read_text(encoding="utf-8"))
     return HTMLResponse("<h1>Cockpit spatial HoL AI en cours de génération...</h1>")
+
+
+@app.get("/health")
+@app.get("/healthz")
+@app.get("/ping")
+async def health_check():
+    return {"status": "ok", "app": "HoL AI"}
 
 
 @app.get("/manifest.json")
