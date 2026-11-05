@@ -1,0 +1,132 @@
+[
+  {
+    "id": "goal_1",
+    "title": "Atteindre 10 000 € de MRR sur HoL AI SaaS",
+    "category": "Business",
+    "target_metric": "10000 €",
+    "current_metric": "2450 €",
+    "progress_percent": 24.5,
+    "deadline": "31/12/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_2",
+    "title": "Optimiser le budget abonnements et économiser 600 €/an",
+    "category": "Finance",
+    "target_metric": "600 € économisés",
+    "current_metric": "180 € économisés",
+    "progress_percent": 30.0,
+    "deadline": "15/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_3",
+    "title": "Parité complète avec Meta Muse et Antigravity",
+    "category": "Tech & R&D",
+    "target_metric": "100% Fonctionnalités",
+    "current_metric": "95%",
+    "progress_percent": 95.0,
+    "deadline": "26/10/2026",
+    "status": "almost_done"
+  },
+  {
+    "id": "goal_4",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_5",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_6",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_7",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_8",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_9",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_10",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_11",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_12",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  },
+  {
+    "id": "goal_13",
+    "title": "Lancer le nouveau dashboard HoL AI",
+    "category": "Tech",
+    "target_metric": "100%",
+    "current_metric": "0%",
+    "progress_percent": 0.0,
+    "deadline": "01/11/2026",
+    "status": "in_progress"
+  }
+]

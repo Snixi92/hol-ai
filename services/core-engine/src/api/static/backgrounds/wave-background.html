@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fréquence Harmonique - 21st.dev Shader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #07060c;
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            inset: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="waves-canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('waves-canvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+
+        let width = 0;
+        let height = 0;
+        let dpr = window.devicePixelRatio || 1;
+        let isDark = true;
+
+        // Mouse tracking with smooth interpolation
+        const mouse = {
+            x: -1000,
+            y: -1000,
+            targetX: -1000,
+            targetY: -1000,
+            active: false
+        };
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            dpr = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(width * dpr);
+            canvas.height = Math.floor(height * dpr);
+            ctx.scale(dpr, dpr);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Mouse listeners
+        window.addEventListener('mousemove', (e) => {
+            mouse.targetX = e.clientX;
+            mouse.targetY = e.clientY;
+            mouse.active = true;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.active = false;
+        });
+
+        // Iframe postMessage bridge
+        window.addEventListener('message', (e) => {
+            if (!e.data) return;
+            if (e.data.type === 'mousemove') {
+                mouse.targetX = e.data.clientX;
+                mouse.targetY = e.data.clientY;
+                mouse.active = true;
+            } else if (e.data.type === 'setTheme') {
+                isDark = e.data.theme !== 'light';
+                document.documentElement.className = isDark ? 'dark' : 'light';
+            }
+        });
+
+        // Wave configurations matching authentic 21st.dev harmonic curves
+        const waves = [
+            {
+                baseYRatio: 0.52,
+                amplitude: 58,
+                frequency: 0.0028,
+                speed: 0.0016,
+                phase: 0,
+                colorStop1: 'rgba(168, 85, 247, 0.55)', // Purple 500
+                colorStop2: 'rgba(129, 140, 248, 0.15)', // Indigo 400
+                strokeColor: 'rgba(192, 132, 252, 0.95)', // Purple 300
+                strokeWidth: 2.5,
+                ribbonHeight: 46
+            },
+            {
+                baseYRatio: 0.48,
+                amplitude: 75,
+                frequency: 0.0021,
+                speed: -0.0012,
+                phase: 2.1,
+                colorStop1: 'rgba(139, 92, 246, 0.45)', // Violet 500
+                colorStop2: 'rgba(56, 189, 248, 0.12)',  // Sky 400
+                strokeColor: 'rgba(167, 139, 250, 0.90)', // Violet 400
+                strokeWidth: 2.0,
+                ribbonHeight: 52
+            },
+            {
+                baseYRatio: 0.55,
+                amplitude: 45,
+                frequency: 0.0035,
+                speed: 0.0022,
+                phase: 4.3,
+                colorStop1: 'rgba(236, 72, 153, 0.35)', // Pink 500
+                colorStop2: 'rgba(147, 51, 234, 0.10)', // Purple 600
+                strokeColor: 'rgba(244, 114, 182, 0.85)', // Pink 400
+                strokeWidth: 1.8,
+                ribbonHeight: 38
+            },
+            {
+                baseYRatio: 0.45,
+                amplitude: 85,
+                frequency: 0.0017,
+                speed: 0.0009,
+                phase: 1.2,
+                colorStop1: 'rgba(79, 70, 229, 0.30)', // Indigo 600
+                colorStop2: 'rgba(192, 132, 252, 0.08)',
+                strokeColor: 'rgba(129, 140, 248, 0.75)',
+                strokeWidth: 1.5,
+                ribbonHeight: 60
+            }
+        ];
+
+        let time = 0;
+
+        function render() {
+            time += 1;
+
+            // Interpolate mouse
+            if (mouse.active) {
+                mouse.x += (mouse.targetX - mouse.x) * 0.08;
+                mouse.y += (mouse.targetY - mouse.y) * 0.08;
+            } else {
+                mouse.x += (-1000 - mouse.x) * 0.05;
+                mouse.y += (-1000 - mouse.y) * 0.05;
+            }
+
+            // Background fill
+            const bgGrad = ctx.createRadialGradient(
+                width * 0.5, height * 0.5, 50,
+                width * 0.5, height * 0.5, Math.max(width, height) * 0.75
+            );
+            if (isDark) {
+                bgGrad.addColorStop(0, '#0c0a17');
+                bgGrad.addColorStop(0.5, '#07060c');
+                bgGrad.addColorStop(1, '#030205');
+            } else {
+                bgGrad.addColorStop(0, '#f8fafc');
+                bgGrad.addColorStop(0.5, '#f1f5f9');
+                bgGrad.addColorStop(1, '#e2e8f0');
+            }
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            // Ambient background glow in center
+            if (isDark) {
+                const glow = ctx.createRadialGradient(
+                    width * 0.5, height * 0.5, 0,
+                    width * 0.5, height * 0.5, width * 0.4
+                );
+                glow.addColorStop(0, 'rgba(147, 51, 234, 0.12)');
+                glow.addColorStop(0.6, 'rgba(99, 102, 241, 0.05)');
+                glow.addColorStop(1, 'transparent');
+                ctx.fillStyle = glow;
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            // Draw each harmonic wave ribbon
+            waves.forEach((wave, idx) => {
+                const baseY = height * wave.baseYRatio;
+                const step = 4;
+                const pointsTop = [];
+                const pointsBottom = [];
+
+                for (let x = -20; x <= width + 20; x += step) {
+                    // Base harmonic formula
+                    const angle1 = x * wave.frequency + time * wave.speed + wave.phase;
+                    const angle2 = x * (wave.frequency * 1.8) - time * (wave.speed * 0.7);
+                    
+                    let yOffset = Math.sin(angle1) * wave.amplitude + Math.cos(angle2) * (wave.amplitude * 0.35);
+
+                    // Mouse perturbation
+                    if (mouse.x > -500) {
+                        const dist = Math.abs(x - mouse.x);
+                        const radius = 260;
+                        if (dist < radius) {
+                            const factor = Math.cos((dist / radius) * (Math.PI / 2));
+                            const mouseLift = (mouse.y - baseY) * 0.28 * factor;
+                            yOffset += mouseLift;
+                        }
+                    }
+
+                    const yTop = baseY + yOffset - (wave.ribbonHeight * 0.5);
+                    const yBottom = baseY + yOffset + (wave.ribbonHeight * 0.5);
+
+                    pointsTop.push({ x, y: yTop });
+                    pointsBottom.push({ x, y: yBottom });
+                }
+
+                // Render ribbon fill
+                ctx.beginPath();
+                ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
+                for (let i = 1; i < pointsTop.length; i++) {
+                    ctx.lineTo(pointsTop[i].x, pointsTop[i].y);
+                }
+                for (let i = pointsBottom.length - 1; i >= 0; i--) {
+                    ctx.lineTo(pointsBottom[i].x, pointsBottom[i].y);
+                }
+                ctx.closePath();
+
+                const ribbonGrad = ctx.createLinearGradient(0, baseY - wave.amplitude, 0, baseY + wave.amplitude);
+                ribbonGrad.addColorStop(0, wave.colorStop1);
+                ribbonGrad.addColorStop(1, wave.colorStop2);
+                ctx.fillStyle = ribbonGrad;
+                ctx.fill();
+
+                // Render top glowing contour
+                ctx.beginPath();
+                ctx.moveTo(pointsTop[0].x, pointsTop[0].y);
+                for (let i = 1; i < pointsTop.length; i++) {
+                    ctx.lineTo(pointsTop[i].x, pointsTop[i].y);
+                }
+                ctx.strokeStyle = wave.strokeColor;
+                ctx.lineWidth = wave.strokeWidth;
+                ctx.shadowColor = wave.strokeColor;
+                ctx.shadowBlur = isDark ? 16 : 4;
+                ctx.stroke();
+
+                // Reset shadow
+                ctx.shadowBlur = 0;
+            });
+
+            requestAnimationFrame(render);
+        }
+
+        render();
+    </script>
+</body>
+</html>

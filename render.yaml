@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: hol-ai
+    env: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /manifest.json
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000

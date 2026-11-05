@@ -1,0 +1,12 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+body { background: #070913; color: #e2e8f0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.container { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(0, 243, 255, 0.3); border-radius: 16px; padding: 32px; text-align: center; box-shadow: 0 0 35px rgba(0, 243, 255, 0.15); }
+h1 { font-size: 1.5rem; letter-spacing: 2px; color: #00f3ff; margin-bottom: 16px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+.status { font-size: 1.1rem; margin-bottom: 24px; }
+.neon-cyan { color: #00f3ff; font-weight: bold; text-shadow: 0 0 8px #00f3ff; }
+.neon-pink { color: #ff007f; font-weight: bold; text-shadow: 0 0 8px #ff007f; }
+.grid { display: grid; grid-template-columns: repeat(3, 100px); grid-template-rows: repeat(3, 100px); gap: 12px; margin: 0 auto 24px auto; }
+.cell { background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease; }
+.cell:hover { background: #1f2937; border-color: #00f3ff; box-shadow: 0 0 15px rgba(0, 243, 255, 0.3); transform: scale(1.02); }
+.glow-btn { background: linear-gradient(135deg, #00f3ff, #0066ff); color: #000; border: none; padding: 12px 24px; font-weight: bold; border-radius: 8px; cursor: pointer; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 0 15px rgba(0, 243, 255, 0.4); }
+.glow-btn:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(0, 243, 255, 0.8); }

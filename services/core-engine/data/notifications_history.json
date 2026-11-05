@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "notif_1793912426_26984",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793912426.420462,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793826023_26792",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793826023.3448737,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793740110_4204",
+    "title": "Alerte API Test",
+    "message": "Notification par l'API",
+    "category": "general",
+    "urgency": "low",
+    "action_url": null,
+    "timestamp": 1793740110.149619,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793740108_4204",
+    "title": "[PROMO] Baisse de Prix Détectée (-22%)",
+    "message": "PlayStation 5 Slim est passé de 549.99 EUR à 429.00 EUR ! Économie immédiate de 120.99 EUR.",
+    "category": "deal_alert",
+    "urgency": "high",
+    "action_url": "",
+    "timestamp": 1793740108.3305874,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793740108_4204",
+    "title": "[COLIS] Arrivé - Casier AMAZON HUB",
+    "message": "Ton code de retrait secret est : 948123. Disponible dès maintenant au locker (Gare de Vienne) !",
+    "category": "locker_pin",
+    "urgency": "high",
+    "action_url": null,
+    "timestamp": 1793740108.3292644,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793740108_4204",
+    "title": "Test Notification Unitaire",
+    "message": "Ceci est un test unitaire de notification Toast",
+    "category": "unit_test",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793740108.2986014,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739930_4204",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739930.4713326,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739922_4204",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739922.3876016,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739922_4204",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739922.3721972,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739922_4204",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739922.3553567,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739922_4204",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739922.3408477,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739922_4204",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739922.321529,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739644_31248",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739644.76181,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739623_26504",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739623.9908915,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793739606_12080",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793739606.4597435,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793566817_17808",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793566817.7025523,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793480424_28548",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793480424.7444491,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793134808_28324",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793134808.4499323,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057663_29092",
+    "title": "Alerte API Test",
+    "message": "Notification par l'API",
+    "category": "general",
+    "urgency": "low",
+    "action_url": null,
+    "timestamp": 1793057663.5959048,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057661_29092",
+    "title": "[PROMO] Baisse de Prix Détectée (-22%)",
+    "message": "PlayStation 5 Slim est passé de 549.99 EUR à 429.00 EUR ! Économie immédiate de 120.99 EUR.",
+    "category": "deal_alert",
+    "urgency": "high",
+    "action_url": "",
+    "timestamp": 1793057661.5600686,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057661_29092",
+    "title": "[COLIS] Arrivé - Casier AMAZON HUB",
+    "message": "Ton code de retrait secret est : 948123. Disponible dès maintenant au locker (Gare de Vienne) !",
+    "category": "locker_pin",
+    "urgency": "high",
+    "action_url": null,
+    "timestamp": 1793057661.5577366,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057661_29092",
+    "title": "Test Notification Unitaire",
+    "message": "Ceci est un test unitaire de notification Toast",
+    "category": "unit_test",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057661.5347352,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057592_29092",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057592.1710205,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057584_29092",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057584.2420387,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057584_29092",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057584.204903,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057584_29092",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057584.1461976,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057584_29092",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057584.106036,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793057584_29092",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793057584.0974045,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793056065_11388",
+    "title": "Alerte API Test",
+    "message": "Notification par l'API",
+    "category": "general",
+    "urgency": "low",
+    "action_url": null,
+    "timestamp": 1793056065.1137507,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793056062_11388",
+    "title": "[PROMO] Baisse de Prix Détectée (-22%)",
+    "message": "PlayStation 5 Slim est passé de 549.99 EUR à 429.00 EUR ! Économie immédiate de 120.99 EUR.",
+    "category": "deal_alert",
+    "urgency": "high",
+    "action_url": "",
+    "timestamp": 1793056062.8906486,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793056062_11388",
+    "title": "[COLIS] Arrivé - Casier AMAZON HUB",
+    "message": "Ton code de retrait secret est : 948123. Disponible dès maintenant au locker (Gare de Vienne) !",
+    "category": "locker_pin",
+    "urgency": "high",
+    "action_url": null,
+    "timestamp": 1793056062.8878744,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793056062_11388",
+    "title": "Test Notification Unitaire",
+    "message": "Ceci est un test unitaire de notification Toast",
+    "category": "unit_test",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793056062.863672,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055957_11388",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055957.2175846,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055952_11388",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055952.1846201,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055952_11388",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055952.1751292,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055952_11388",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055952.161562,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055952_11388",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055952.1464677,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055952_11388",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055952.14115,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055548_22104",
+    "title": "Alerte API Test",
+    "message": "Notification par l'API",
+    "category": "general",
+    "urgency": "low",
+    "action_url": null,
+    "timestamp": 1793055548.0082648,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055545_22104",
+    "title": "[PROMO] Baisse de Prix Détectée (-22%)",
+    "message": "PlayStation 5 Slim est passé de 549.99 EUR à 429.00 EUR ! Économie immédiate de 120.99 EUR.",
+    "category": "deal_alert",
+    "urgency": "high",
+    "action_url": "",
+    "timestamp": 1793055545.7779381,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055545_22104",
+    "title": "[COLIS] Arrivé - Casier AMAZON HUB",
+    "message": "Ton code de retrait secret est : 948123. Disponible dès maintenant au locker (Gare de Vienne) !",
+    "category": "locker_pin",
+    "urgency": "high",
+    "action_url": null,
+    "timestamp": 1793055545.7757602,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055545_22104",
+    "title": "Test Notification Unitaire",
+    "message": "Ceci est un test unitaire de notification Toast",
+    "category": "unit_test",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055545.7481916,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055430_22104",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055430.2052462,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055425_22104",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055425.9667437,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055425_22104",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055425.9517179,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055425_22104",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055425.9366968,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055425_22104",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055425.9206083,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793055425_22104",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793055425.9057248,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793053059_23088",
+    "title": "Alerte API Test",
+    "message": "Notification par l'API",
+    "category": "general",
+    "urgency": "low",
+    "action_url": null,
+    "timestamp": 1793053059.2939649,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793053057_23088",
+    "title": "[PROMO] Baisse de Prix Détectée (-22%)",
+    "message": "PlayStation 5 Slim est passé de 549.99 EUR à 429.00 EUR ! Économie immédiate de 120.99 EUR.",
+    "category": "deal_alert",
+    "urgency": "high",
+    "action_url": "",
+    "timestamp": 1793053057.236678,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793053057_23088",
+    "title": "[COLIS] Arrivé - Casier AMAZON HUB",
+    "message": "Ton code de retrait secret est : 948123. Disponible dès maintenant au locker (Gare de Vienne) !",
+    "category": "locker_pin",
+    "urgency": "high",
+    "action_url": null,
+    "timestamp": 1793053057.235073,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793053057_23088",
+    "title": "Test Notification Unitaire",
+    "message": "Ceci est un test unitaire de notification Toast",
+    "category": "unit_test",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793053057.2017386,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052931_31216",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052931.325516,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052905_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052905.999667,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052904_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052904.5838249,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052903_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052903.1995828,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052902_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052902.323141,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052901_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052901.825842,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052900_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052900.9496312,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052900_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052900.4402924,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052899_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052899.5799873,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052899_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052899.0283933,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052898_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052898.2066998,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052897_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052897.62763,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052896_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052896.827293,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052896_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052896.2275782,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052895_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052895.4419932,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052894_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052894.839673,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052894_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052894.064058,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052893_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052893.4559531,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052892_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052892.6752996,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052892_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052892.0769577,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052891_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052891.307644,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052890_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052890.68065,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052889_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052889.929543,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052889_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052889.2871392,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052888_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052888.5227413,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052887_24120",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052887.8939247,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052887_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052887.0993037,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052885_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052885.7389197,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052884_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052884.338149,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052882_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052882.9754078,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052881_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052881.5930128,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052880_10956",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052880.3903034,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052880_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052880.1971076,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052878_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052878.7880063,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052877_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052877.411169,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052876_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052876.0271568,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052874_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052874.6528888,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052873_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052873.282955,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052871_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052871.9184546,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052870_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052870.5532196,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052869_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052869.1950731,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052867_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052867.8207657,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052866_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052866.4530628,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052865_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052865.0939744,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052863_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052863.7346787,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052862_12500",
+    "title": "HoL AI - Synthèse matinale (08h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052862.3672984,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052860_12500",
+    "title": "HoL AI - Bilan financier et revenus nocturne (22h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052860.9838483,
+    "delivered": true
+  },
+  {
+    "id": "notif_1793052859_12500",
+    "title": "HoL AI - Point mi-journée (13h00)",
+    "message": "Tâche de fond autonome complétée avec succès.",
+    "category": "cron_job",
+    "urgency": "normal",
+    "action_url": null,
+    "timestamp": 1793052859.5848255,
+    "delivered": true
+  }
+]

@@ -1,0 +1,2161 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#08080a">
+    <title>HoL AI — Assistant Personnel & Sourcing Intelligent</title>
+    
+    <!-- PWA Manifest & Icons -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.svg">
+
+    <!-- Fonts : Apple SF Pro + Plus Jakarta Sans + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Vector Icons (Apple SF Symbols style) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', '"SF Pro"', '"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', '"SF Mono"', 'Menlo', 'monospace'],
+                    },
+                    colors: {
+                        obsidian: {
+                            950: '#050507',
+                            900: '#08080a',
+                            850: '#101014',
+                            800: '#18181e',
+                            700: '#22222a',
+                        },
+                        titanium: {
+                            50: '#f4f4f6',
+                            100: '#e4e4e7',
+                            200: '#d4d4d8',
+                            300: '#a1a1aa',
+                            400: '#71717a',
+                            500: '#52525b',
+                            600: '#3f3f46',
+                            700: '#27272a',
+                            800: '#18181b',
+                            900: '#09090b',
+                        },
+                        space: {
+                            950: '#050507',
+                            900: '#08080a',
+                            850: '#101014',
+                            800: '#18181e',
+                            700: '#22222a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+                :root {
+            --glass-blur: 28px;
+            --glass-saturate: 190%;
+            --glass-contrast: 105%;
+            --spring-standard: cubic-bezier(0.22, 1, 0.36, 1);
+            --spring-bounce: cubic-bezier(0.16, 1, 0.3, 1);
+            --spring-snappy: cubic-bezier(0.2, 0, 0, 1);
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+
+        /* Mobile Safe-Area Insets for iOS 27 */
+        header, #header-messaging, #header-perplexity, #header-chatgpt {
+            padding-top: max(0.5rem, env(safe-area-inset-top, 0px)) !important;
+        }
+        .ios-dock-container {
+            bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .ios-chat-scroll {
+            padding-bottom: calc(11.5rem + env(safe-area-inset-bottom, 0px)) !important;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Plus Jakarta Sans", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s var(--spring-standard), color 0.3s var(--spring-standard);
+        }
+
+        /* Thème Sombre : Obsidian OLED profond avec lumière ambiante Apple */
+        html.dark body {
+            background-color: #08080a;
+            color: #f4f4f6;
+            background-image: 
+                radial-gradient(at 15% 20%, rgba(255, 255, 255, 0.08) 0px, transparent 45%),
+                radial-gradient(at 85% 75%, rgba(160, 180, 210, 0.05) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(255, 255, 255, 0.02) 0px, transparent 65%);
+        }
+
+        /* Thème Clair : Frosted Pure Slate avec brillance ambiante */
+        html:not(.dark) body {
+            background-color: #f5f5f7;
+            color: #09090b;
+            background-image: 
+                radial-gradient(at 20% 20%, rgba(0, 0, 0, 0.035) 0px, transparent 60%),
+                radial-gradient(at 80% 80%, rgba(0, 0, 0, 0.025) 0px, transparent 60%);
+        }
+
+        /* --- MOTEUR LIQUID GLASS APPLE iOS 27 (MASTER SPEC "REGULAR GLASS") --- */
+
+        .liquid-glass, .liquid-glass-regular {
+            position: relative;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.025) 35%, rgba(0, 0, 0, 0.06) 65%, rgba(255, 255, 255, 0.09) 100%),
+                rgba(14, 14, 18, 0.52);
+            backdrop-filter: blur(28px) saturate(220%) contrast(108%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(108%);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            box-shadow: 
+                /* Arête spéculaire supérieure ultra-fine rasoir */
+                inset 0 1.6px 2px 0 rgba(255, 255, 255, 0.85),
+                /* Réfraction d'ombre inférieure (effet d'épaisseur de lentille) */
+                inset 0 -2px 3px 0 rgba(0, 0, 0, 0.50),
+                /* Biseau latéral gauche */
+                inset 2px 0 3px 0 rgba(255, 255, 255, 0.30),
+                /* Biseau latéral droit */
+                inset -2px 0 3px 0 rgba(255, 255, 255, 0.18),
+                /* Micro-aberration chromatique périphérique */
+                0 0 1px 0 rgba(255, 80, 80, 0.15),
+                0 0 2px 0 rgba(80, 160, 255, 0.15),
+                /* Ombre volumétrique douce et diffuse */
+                0 28px 64px -10px rgba(0, 0, 0, 0.82);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Réfraction interactive au survol & toucher (Dynamisme optique de Fresnel) */
+        .liquid-glass::before, .liquid-glass-regular::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(
+                circle 280px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.28) 0%,
+                rgba(255, 255, 255, 0.05) 40%,
+                transparent 70%
+            );
+            opacity: 0.92;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        /* Dock flottant : Master Capsule Fluide Apple Liquid Glass */
+        .liquid-glass-dock {
+            position: relative;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 35%, rgba(0, 0, 0, 0.05) 65%, rgba(255, 255, 255, 0.10) 100%),
+                rgba(14, 14, 18, 0.52);
+            backdrop-filter: blur(32px) saturate(220%) contrast(108%);
+            -webkit-backdrop-filter: blur(32px) saturate(220%) contrast(108%);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 
+                inset 0 1.8px 2.5px 0 rgba(255, 255, 255, 0.88),
+                inset 0 -2.2px 3.5px 0 rgba(0, 0, 0, 0.55),
+                inset 2.2px 0 3.5px 0 rgba(255, 255, 255, 0.35),
+                inset -2.2px 0 3.5px 0 rgba(255, 255, 255, 0.20),
+                0 0 1px 0 rgba(255, 80, 80, 0.16),
+                0 0 2px 0 rgba(80, 160, 255, 0.16),
+                0 32px 72px -12px rgba(0, 0, 0, 0.85);
+        }
+
+        .liquid-glass-dock::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(
+                circle 320px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(255, 255, 255, 0.30) 0%,
+                rgba(255, 255, 255, 0.06) 40%,
+                transparent 70%
+            );
+            opacity: 0.95;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        /* Thème clair : Liquid Glass cristal pur poli */
+        html:not(.dark) .liquid-glass, 
+        html:not(.dark) .liquid-glass-regular,
+        html:not(.dark) .liquid-glass-dock {
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.36) 35%, rgba(240, 240, 248, 0.25) 65%, rgba(255, 255, 255, 0.55) 100%),
+                rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 
+                inset 0 1.6px 2px 0 rgba(255, 255, 255, 0.98),
+                inset 0 -1.6px 2px 0 rgba(0, 0, 0, 0.06),
+                inset 1.6px 0 2px 0 rgba(255, 255, 255, 0.60),
+                inset -1.6px 0 2px 0 rgba(255, 255, 255, 0.40),
+                0 20px 48px -10px rgba(15, 23, 42, 0.14);
+        }
+
+        /* Contrôles et pills subtils en Liquid Glass */
+        .liquid-glass-subtle {
+            position: relative;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.06) 100%),
+                rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 
+                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45),
+                inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
+                0 10px 28px -6px rgba(0, 0, 0, 0.40);
+        }
+
+        html:not(.dark) .liquid-glass-subtle {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.92);
+            box-shadow: 
+                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95),
+                0 8px 24px -6px rgba(15, 23, 42, 0.06);
+        }
+
+        /* Apple HIG Calque de Contenu Standard : lisibilité absolue sans verre parasite */
+        .bubble-assistant {
+            background: #111115 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+
+        html:not(.dark) .bubble-assistant {
+            background: #ffffff !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06) !important;
+        }
+
+        /* Boutons de suggestions rapides dans le calque de contenu */
+        .suggestion-chip {
+            background: #18181f;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            color: #e4e4e7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .suggestion-chip:hover {
+            background: #24242e;
+            border-color: rgba(255, 255, 255, 0.22);
+            color: #ffffff;
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        html:not(.dark) .suggestion-chip {
+            background: #f0f0f4;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #18181b;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        html:not(.dark) .suggestion-chip:hover {
+            background: #e4e4e9;
+            border-color: rgba(0, 0, 0, 0.16);
+        }
+
+        /* Bulle Utilisateur : High-End Obsidian / Titanium */
+        .bubble-user-glass {
+            background: #1c1c22;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 
+                inset 0 1px 1px 0 rgba(255, 255, 255, 0.32),
+                0 8px 22px -4px rgba(0, 0, 0, 0.45);
+        }
+
+        html:not(.dark) .bubble-user-glass {
+            background: #18181b;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45),
+                0 8px 20px -4px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Avatar Apple Frosted Sphere */
+        .apple-avatar {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 4px 12px rgba(0, 0, 0, 0.30);
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* =========================================================================
+           FONDS D'ÉCRAN DYNAMIQUES DE CONVERSATION (APPLE iOS 27 LIQUID CANVAS)
+           ========================================================================= */
+        #conversation-bg-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+        }
+
+        .bg-preset-default {
+            background: transparent !important;
+        }
+
+        .bg-preset-aurora {
+            background: 
+                radial-gradient(ellipse at 15% 10%, rgba(56, 189, 248, 0.24) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 25%, rgba(168, 85, 247, 0.26) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 85%, rgba(16, 185, 129, 0.20) 0%, transparent 65%),
+                #08080d !important;
+        }
+
+        .bg-preset-cyber-grid {
+            background-color: #060810 !important;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(168, 85, 247, 0.12) 1px, transparent 1px),
+                radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.20) 0%, transparent 70%) !important;
+            background-size: 32px 32px, 32px 32px, 100% 100% !important;
+        }
+
+        .bg-preset-nebula {
+            background-color: #04020a !important;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.24) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(99, 102, 241, 0.30) 0%, transparent 55%),
+                radial-gradient(circle at 50% 10%, rgba(139, 92, 246, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.7) 1px, transparent 2px),
+                radial-gradient(circle at 15% 75%, rgba(255, 255, 255, 0.6) 1px, transparent 2px),
+                radial-gradient(circle at 45% 60%, rgba(255, 255, 255, 0.5) 1px, transparent 2px),
+                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.6) 1px, transparent 2px) !important;
+            background-size: 100% 100%, 100% 100%, 100% 100%, 180px 180px, 220px 220px, 160px 160px, 200px 200px !important;
+        }
+
+        .bg-preset-frosted {
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.09) 0%, transparent 70%),
+                linear-gradient(180deg, #13151c 0%, #090a0d 100%) !important;
+        }
+
+        .bg-preset-sunset {
+            background: 
+                radial-gradient(circle at 85% 15%, rgba(244, 63, 94, 0.26) 0%, transparent 60%),
+                radial-gradient(circle at 15% 55%, rgba(245, 158, 11, 0.20) 0%, transparent 60%),
+                radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.24) 0%, transparent 70%),
+                #0c0612 !important;
+        }
+
+        /* Support du thème clair pour les presets */
+        html:not(.dark) .bg-preset-aurora {
+            background: 
+                radial-gradient(ellipse at 15% 10%, rgba(56, 189, 248, 0.16) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 25%, rgba(168, 85, 247, 0.16) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 85%, rgba(16, 185, 129, 0.14) 0%, transparent 65%),
+                #f0f4f8 !important;
+        }
+        html:not(.dark) .bg-preset-cyber-grid {
+            background-color: #f1f5f9 !important;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(168, 85, 247, 0.15) 1px, transparent 1px),
+                radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 70%) !important;
+            background-size: 32px 32px, 32px 32px, 100% 100% !important;
+        }
+        html:not(.dark) .bg-preset-nebula {
+            background-color: #f3f0f7 !important;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.14) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(99, 102, 241, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 50% 10%, rgba(139, 92, 246, 0.14) 0%, transparent 60%) !important;
+        }
+        html:not(.dark) .bg-preset-frosted {
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.05) 0%, transparent 70%),
+                linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%) !important;
+        }
+        html:not(.dark) .bg-preset-sunset {
+            background: 
+                radial-gradient(circle at 85% 15%, rgba(244, 63, 94, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 15% 55%, rgba(245, 158, 11, 0.13) 0%, transparent 60%),
+                radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.15) 0%, transparent 70%),
+                #fdf2f4 !important;
+        }
+
+        .chat-bg-card {
+            transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+        }
+        .chat-bg-card:hover {
+            transform: translateY(-2px) scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .chat-bg-card.active-bg {
+            border-color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.12) !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.30);
+        }
+
+        /* Apple HIG Scroll Edge Effect (Rule #6) */
+        .ios-chat-scroll {
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 36px), transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 36px), transparent 100%);
+        }
+
+        /* Apple HIG Accessibilité (Rule #5) */
+        @media (prefers-reduced-transparency: reduce) {
+            .liquid-glass, .liquid-glass-regular, .liquid-glass-dock, .liquid-glass-subtle {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                background: #121216 !important;
+                border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            }
+            html:not(.dark) .liquid-glass,
+            html:not(.dark) .liquid-glass-regular,
+            html:not(.dark) .liquid-glass-dock,
+            html:not(.dark) .liquid-glass-subtle {
+                background: #ffffff !important;
+                border: 1px solid rgba(0, 0, 0, 0.15) !important;
+            }
+        }
+
+        @media (prefers-contrast: more) {
+            .liquid-glass, .liquid-glass-regular, .liquid-glass-dock {
+                border: 2px solid rgba(255, 255, 255, 0.45) !important;
+            }
+            html:not(.dark) .liquid-glass,
+            html:not(.dark) .liquid-glass-regular,
+            html:not(.dark) .liquid-glass-dock {
+                border: 2px solid rgba(0, 0, 0, 0.40) !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .msg-animate, .tactile-btn, .liquid-glass, .liquid-glass-regular, .liquid-glass-dock {
+                animation: none !important;
+                transition: none !important;
+            }
+            .liquid-glass::before, .liquid-glass-regular::before, .liquid-glass-dock::before {
+                display: none !important;
+            }
+        }
+
+        /* Animations à Ressort (Apple Spring Physics) */
+        @keyframes appleMessageSpring {
+            0% {
+                opacity: 0;
+                transform: translateY(14px) scale(0.975);
+            }
+            65% {
+                opacity: 0.98;
+                transform: translateY(-1.5px) scale(1.005);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .msg-animate {
+            animation: appleMessageSpring 0.38s var(--spring-standard) forwards;
+        }
+
+        /* Tactile buttons avec rebond élastique iOS 27 */
+        .tactile-btn {
+            transition: transform 0.22s var(--spring-standard), 
+                        background-color 0.15s ease, 
+                        border-color 0.15s ease, 
+                        box-shadow 0.22s var(--spring-standard),
+                        opacity 0.15s ease;
+        }
+
+        .tactile-btn:hover {
+            transform: translateY(-1px) scale(1.018);
+        }
+
+        .tactile-btn:active {
+            transform: scale(0.94) !important;
+        }
+
+        /* Smooth scrollbar ultra discrète */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.16); border-radius: 9999px; }
+        html:not(.dark) ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.16); }
+
+        /* Styles spécifiques aux 3 modes */
+        body.style-messaging #sidebar { display: none !important; }
+        body.style-messaging #header-messaging { display: flex !important; }
+        body.style-messaging #header-perplexity { display: none !important; }
+        body.style-messaging #header-chatgpt { display: none !important; }
+        body.style-messaging .bubble-user {
+            background-color: #18181b;
+            color: #ffffff;
+            border-bottom-right-radius: 6px !important;
+        }
+        body.style-messaging .bubble-assistant {
+            border-bottom-left-radius: 6px !important;
+        }
+
+        body.style-perplexity #sidebar { display: none !important; }
+        body.style-perplexity #header-messaging { display: none !important; }
+        body.style-perplexity #header-perplexity { display: flex !important; }
+        body.style-perplexity #header-chatgpt { display: none !important; }
+        body.style-perplexity .search-hub-banner { display: block !important; }
+
+        body.style-chatgpt #sidebar { display: flex !important; }
+        body.style-chatgpt #header-messaging { display: none !important; }
+        body.style-chatgpt #header-perplexity { display: none !important; }
+        body.style-chatgpt #header-chatgpt { display: flex !important; }
+
+        /* Mode Sheet Mobile iOS 27 */
+        @media (max-width: 640px) {
+            .ios-sheet-modal {
+                border-bottom-left-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+                border-top-left-radius: 32px !important;
+                border-top-right-radius: 32px !important;
+                max-height: 90vh;
+                margin-top: auto;
+            }
+        }
+    
+/* ======================================================== */
+/* NIMBUS UI · LIQUID GLASS NAVBAR ("WATERLINE")            */
+/* ======================================================== */
+.nimbus-nav {
+  --n-tint: rgba(255, 255, 255, 0.18);
+  --n-fg: #0B132B;
+  --n-fg-soft: rgba(11, 19, 43, 0.65);
+  --n-rim: rgba(255, 255, 255, 0.75);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px;
+  border-radius: 999px;
+  isolation: isolate;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+}
+.nimbus-nav[data-tone="dark"] {
+  --n-tint: rgba(15, 23, 42, 0.38);
+  --n-fg: #F1F7FF;
+  --n-fg-soft: rgba(241, 247, 255, 0.68);
+  --n-rim: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.nimbus-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -2;
+  overflow: hidden;
+  background: var(--n-tint);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4) brightness(1.08);
+  backdrop-filter: blur(18px) saturate(1.4) brightness(1.08);
+  box-shadow: inset 0 1px 1.5px var(--n-rim), inset 0 0 0 1px rgba(255, 255, 255, 0.15), 0 12px 32px -14px rgba(0, 40, 90, 0.35), 0 2px 6px rgba(0, 40, 90, 0.08);
+}
+.nimbus-nav[data-refract="on"] .nimbus-glass {
+  -webkit-backdrop-filter: url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.08);
+  backdrop-filter: url(#nimbus-refract) blur(2px) saturate(1.2) brightness(1.08);
+}
+.nimbus-water {
+  position: absolute;
+  left: -14px;
+  top: -14px;
+  z-index: -1;
+  pointer-events: none;
+}
+.nimbus-nav[data-gl="off"] .nimbus-water { display: none; }
+.nimbus-drop {
+  display: none;
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  border-radius: 999px;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform, width;
+  background: radial-gradient(120% 140% at 30% 0%, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 55%), rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), inset 0 -2px 4px rgba(0, 162, 255, 0.10), inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 4px 10px -4px rgba(0, 70, 140, 0.22);
+}
+.nimbus-nav[data-gl="off"] .nimbus-drop { display: block; }
+.nimbus-item {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border: 0 !important;
+  border-radius: 999px;
+  background: transparent !important;
+  color: var(--n-fg-soft);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s, transform 0.15s ease-out;
+}
+.nimbus-item:hover {
+  color: var(--n-fg);
+}
+.nimbus-item[aria-current="page"],
+.nimbus-item.active,
+.nimbus-item[aria-current="page"] .nimbus-label,
+.nimbus-item.active .nimbus-label,
+.nimbus-item[aria-current="page"] > span:not(.nv-ico),
+.nimbus-item.active > span:not(.nv-ico) {
+  color: var(--n-fg) !important;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.nimbus-item:active {
+  transform: scale(0.96);
+}
+.nimbus-item:focus-visible {
+  outline: 2px solid #00A2FF;
+  outline-offset: 2px;
+}
+.nv-ico {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+.nv-ico svg {
+  transition: transform 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.nimbus-item[aria-current="page"] .nv-ico,
+.nimbus-item.active .nv-ico,
+.nimbus-item[aria-current="page"] .nv-ico svg,
+.nimbus-item.active .nv-ico svg,
+.nimbus-item[aria-current="page"] .nv-ico i,
+.nimbus-item.active .nv-ico i {
+  transform: translateY(-1px) scale(1.1);
+  color: #38bdf8 !important;
+  stroke: #38bdf8 !important;
+}
+.nv-door { fill: transparent; }
+.nv-ico[data-fx="pop"] svg { animation: nvPop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+@keyframes nvPop { 0% { transform: scale(0.72); } 60% { transform: scale(1.2); } 100% { transform: translateY(-1px) scale(1.08); } }
+.nv-ico[data-fx="plane"] svg { animation: nvPlane 1.15s cubic-bezier(0.55, 0, 0.3, 1) both; }
+@keyframes nvPlane { 0% { transform: none; } 12% { transform: translate(-3px, 2px) rotate(7deg); } 42% { transform: translate(64px, -26px) rotate(-24deg) scale(0.9); opacity: 0; } 43% { transform: translate(-60px, 16px) rotate(-12deg) scale(0.9); opacity: 0; } 58% { opacity: 1; } 80% { transform: translate(3px, -1px) rotate(2deg); } 100% { transform: translateY(-1px) scale(1.08); } }
+.nv-ico[data-fx="plane"]::after {
+  content: ""; position: absolute; left: 55%; top: 48%; height: 2px; width: 46px; border-radius: 2px; transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95)); animation: nvTrail 1.15s ease-out both; pointer-events: none;
+}
+@keyframes nvTrail { 0%, 8% { opacity: 0; transform: rotate(-22deg) scaleX(0); } 30% { opacity: 0.9; transform: rotate(-22deg) scaleX(1); } 55%, 100% { opacity: 0; transform: rotate(-22deg) translateX(30px) scaleX(0.2); } }
+.nv-ico[data-fx="drop"] svg { animation: nvDrop 0.95s cubic-bezier(0.4, 0, 0.3, 1) both; transform-origin: 50% 100%; }
+@keyframes nvDrop { 0% { transform: translateY(-1px); } 26% { transform: translateY(-13px) scale(0.88, 1.12); } 46% { transform: translateY(3px) scale(1.3, 0.68); } 62% { transform: translateY(-3px) scale(0.92, 1.08); } 80% { transform: translateY(0) scale(1.04, 0.97); } 100% { transform: translateY(-1px) scale(1.08); } }
+.nv-ico[data-fx="drop"]::before, .nv-ico[data-fx="drop"]::after {
+  content: ""; position: absolute; bottom: 0; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: currentColor; opacity: 0; pointer-events: none;
+}
+.nv-ico[data-fx="drop"]::before { animation: nvSplashL 0.95s ease-out both; }
+.nv-ico[data-fx="drop"]::after { animation: nvSplashR 0.95s ease-out both; }
+@keyframes nvSplashL { 0%, 44% { opacity: 0; transform: none; } 50% { opacity: 0.9; transform: translate(-5px, -6px); } 75%, 100% { opacity: 0; transform: translate(-11px, 1px) scale(0.4); } }
+@keyframes nvSplashR { 0%, 44% { opacity: 0; transform: none; } 50% { opacity: 0.9; transform: translate(5px, -7px); } 75%, 100% { opacity: 0; transform: translate(12px, 1px) scale(0.4); } }
+.nv-ico[data-fx="spin"] svg { animation: nvSpin 1s cubic-bezier(0.2, 0.75, 0.25, 1) both; }
+@keyframes nvSpin { 0% { transform: perspective(80px) rotateY(0); } 100% { transform: perspective(80px) rotateY(360deg) translateY(-1px) scale(1.08); } }
+.nv-ico[data-fx="glow"] svg { animation: nvHop 0.8s cubic-bezier(0.3, 1.4, 0.5, 1) both; transform-origin: 50% 100%; }
+@keyframes nvHop { 0% { transform: none; } 30% { transform: translateY(-5px) scale(1.04, 0.96); } 55% { transform: translateY(0) scale(1.12, 0.88); } 75% { transform: translateY(-2px) scale(0.98, 1.04); } 100% { transform: translateY(-1px) scale(1.08); } }
+.nv-ico[data-fx="glow"] .nv-door { animation: nvDoor 1.3s ease both; }
+@keyframes nvDoor { 0% { fill: transparent; } 30% { fill: #FFF3A8; } 100% { fill: rgba(126, 232, 255, 0.6); } }
+.nv-ico[data-fx="wave"] svg { animation: nvWave 0.9s ease-in-out both; transform-origin: 50% 92%; }
+@keyframes nvWave { 0% { transform: none; } 20% { transform: rotate(-15deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(4deg); } 100% { transform: translateY(-1px) scale(1.08); } }
+
+@media (max-width: 640px) {
+  .nimbus-nav .nimbus-item { padding: 0 11px; height: 34px; }
+  .nimbus-nav .nimbus-label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nv-ico svg, .nv-ico::before, .nv-ico::after, .nv-door { animation: none !important; transition: none !important; }
+}
+
+
+/* NIMBUS SPACES NAV SPECIFIC REFINEMENT */
+.nimbus-spaces-nav {
+  --n-tint: rgba(255, 255, 255, 0.12);
+  --n-fg: #0B132B;
+  --n-fg-soft: rgba(11, 19, 43, 0.65);
+  --n-rim: rgba(255, 255, 255, 0.7);
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.15);
+}
+.nimbus-spaces-nav[data-tone="dark"] {
+  --n-tint: rgba(15, 23, 42, 0.35);
+  --n-fg: #F1F7FF;
+  --n-fg-soft: rgba(241, 247, 255, 0.65);
+  --n-rim: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.nimbus-spaces-nav .nimbus-item {
+  height: 32px;
+  padding: 0 13px;
+  font-size: 12px;
+  font-weight: 600;
+  gap: 6px;
+}
+@media (max-width: 480px) {
+  .nimbus-spaces-nav .nimbus-item {
+    padding: 0 8px;
+    height: 30px;
+    font-size: 11px;
+    gap: 4px;
+  }
+}
+
+
+/* Thinking Modes Liquid Navbar */
+.nimbus-nav-thinking {
+  padding: 3px;
+  gap: 3px;
+  height: 34px;
+}
+.nimbus-nav-thinking .nimbus-item {
+  height: 28px;
+  padding: 0 11px;
+  font-size: 11.5px;
+  gap: 5px;
+}
+.nimbus-nav-thinking .nv-ico svg {
+  width: 13px;
+  height: 13px;
+}
+@media (max-width: 540px) {
+  .nimbus-nav-thinking .nimbus-item {
+    padding: 0 8px;
+  }
+  .nimbus-nav-thinking .nimbus-label {
+    display: none;
+  }
+}
+
+/* Master Liquid Glass Chat Form */
+.chat-form-liquid {
+  background: rgba(14, 18, 28, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+}
+html:not(.dark) .chat-form-liquid {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.8), 0 8px 24px -6px rgba(0, 40, 90, 0.1);
+}
+.send-btn-liquid {
+  background: radial-gradient(120% 140% at 30% 10%, rgba(255, 255, 255, 1), rgba(240, 244, 255, 0.9));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 1), inset 0 -1px 2px rgba(56, 189, 248, 0.3);
+}
+
+
+/* Nimbus Liquid Glass Badge for Mode Hint */
+.nimbus-badge-liquid {
+  --n-tint: rgba(255, 255, 255, 0.14);
+  --n-rim: rgba(255, 255, 255, 0.7);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  isolation: isolate;
+  height: 34px;
+  box-sizing: border-box;
+  user-select: none;
+}
+.nimbus-badge-liquid[data-tone="dark"] {
+  --n-tint: rgba(10, 18, 40, 0.26);
+  --n-rim: rgba(255, 255, 255, 0.34);
+}
+.nimbus-badge-liquid .nimbus-glass {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--n-tint);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2) brightness(1.08);
+  backdrop-filter: blur(10px) saturate(1.2) brightness(1.08);
+  box-shadow: inset 0 1px 1px var(--n-rim), inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 12px 32px -14px rgba(0, 40, 90, 0.4), 0 2px 6px rgba(0, 40, 90, 0.08);
+}
+
+
+        /* --- CRAFTERUI HERO CAROUSEL COMPONENT (21ST.DEV) --- */
+        .hero-carousel-container {
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            user-select: none;
+            outline: none;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .hero-carousel-noise {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.22;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
+            z-index: 2;
+        }
+
+        .hero-carousel-track-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 0;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .hero-carousel-track {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+            cursor: grab;
+            padding: 0 20px;
+        }
+
+        .hero-carousel-track:active {
+            cursor: grabbing;
+        }
+
+        .hero-carousel-slide {
+            position: relative;
+            flex-shrink: 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .hero-carousel-slide.is-inactive {
+            width: 80px;
+            height: 54px;
+            opacity: 0.55;
+            transform: scale(0.92);
+        }
+
+        .hero-carousel-slide.is-inactive:hover {
+            opacity: 0.88;
+            transform: scale(0.98);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .hero-carousel-slide.is-active {
+            width: 104px;
+            height: 72px;
+            opacity: 1;
+            transform: scale(1.1);
+            border: 2px solid var(--slide-accent, #38bdf8);
+            box-shadow: 0 0 22px var(--slide-glow, rgba(56, 189, 248, 0.55));
+            z-index: 10;
+        }
+
+        /* Panoramic Modal specific styles */
+        .hero-panoramic-slide.is-inactive {
+            width: 130px;
+            height: 86px;
+            opacity: 0.5;
+            transform: scale(0.9);
+        }
+
+        .hero-panoramic-slide.is-inactive:hover {
+            opacity: 0.85;
+            transform: scale(0.98);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero-panoramic-slide.is-active {
+            width: 180px;
+            height: 120px;
+            opacity: 1;
+            transform: scale(1.15);
+            border: 2px solid var(--slide-accent, #38bdf8);
+            box-shadow: 0 0 32px var(--slide-glow, rgba(56, 189, 248, 0.65));
+            z-index: 10;
+        }
+
+        .hero-nav-btn {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 9999px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transform: scale(1.12);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .hero-nav-btn:active {
+            transform: scale(0.94);
+        }
+
+
+        /* 21ST.DEV CONNECTORS VARIANTS ANIMATIONS */
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee-continuous {
+            display: flex;
+            width: max-content;
+            animation: marqueeScroll 22s linear infinite;
+        }
+        .animate-marquee-continuous:hover {
+            animation-play-state: paused;
+        }
+        @keyframes orbitSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes orbitReverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        .animate-orbit-ring-outer {
+            animation: orbitSlow 40s linear infinite;
+        }
+        .animate-orbit-ring-inner {
+            animation: orbitReverse 28s linear infinite;
+        }
+        .animate-counter-rotate {
+            animation: orbitReverse 40s linear infinite;
+        }
+        .animate-counter-rotate-inner {
+            animation: orbitSlow 28s linear infinite;
+        }
+
+    </style>
+</head>
+<body class="flex flex-col lg:flex-row h-full w-full overflow-hidden antialiased style-messaging">
+    <!-- SVG FILTRE OPTIQUE DE RÉFRACTION LIQUID GLASS (LOI DE SNELL & DISPLACEMENT MAP) -->
+    <svg class="sr-only" aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; pointer-events: none;">
+      <defs>
+        <filter id="apple-liquid-glass-refract" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G" result="refracted" />
+          <feGaussianBlur in="refracted" stdDeviation="0.3" result="blurred" />
+          <feSpecularLighting in="noise" surfaceScale="2.5" specularConstant="1.4" specularExponent="24" lighting-color="#ffffff" result="specular">
+            <fePointLight x="250" y="-120" z="350" />
+          </feSpecularLighting>
+          <feComposite in="specular" in2="SourceGraphic" operator="in" result="specular-composite" />
+          <feMerge>
+            <feMergeNode in="blurred" />
+            <feMergeNode in="specular-composite" />
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
+
+    
+    <!-- SVG Refraction Filter for Nimbus Liquid Glass -->
+    <svg width="0" height="0" style="position:absolute;pointer-events:none">
+      <defs>
+        <filter id="nimbus-refract" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04 0.08" numOctaves="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- MOBILE SIDEBAR BACKDROP (Pour mode ChatGPT) -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-30 hidden backdrop-blur-md transition-opacity"></div>
+
+    <!-- SIDEBAR GAUCHE (Actif en mode ChatGPT) -->
+    <aside id="sidebar" class="hidden fixed lg:static inset-y-0 left-0 w-64 liquid-glass border-r border-white/10 flex flex-col z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-out">
+        <div class="p-3.5 border-b border-white/10 flex items-center justify-between">
+            <button onclick="startNewChat()" class="tactile-btn flex-1 py-2 px-3 rounded-2xl bg-white dark:bg-white text-black hover:bg-neutral-200 flex items-center justify-center space-x-2 text-xs font-semibold shadow-md">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Nouvelle discussion</span>
+            </button>
+            <button onclick="toggleSidebar()" class="lg:hidden p-2 text-neutral-400 hover:text-white ml-1 rounded-xl hover:bg-white/10" title="Fermer"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+
+        
+        <!-- Liquid Navbar : Filtres Sidebar -->
+        <div class="px-3 pt-2 pb-1">
+            <nav class="nimbus-nav w-full" id="sidebar-filters-liquid-navbar" data-tone="dark" role="tablist">
+                <div class="nimbus-glass"></div>
+                <canvas class="nimbus-water" width="240" height="58"></canvas>
+                <div class="nimbus-drop"></div>
+                <button type="button" class="nimbus-item flex-1 justify-center active" data-index="0" data-filter="recent" onclick="onSidebarFilterNavAction(0, 'recent')">
+                    <span class="nv-ico" data-fx="glow"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    <span class="text-xs">Récents</span>
+                </button>
+                <button type="button" class="nimbus-item flex-1 justify-center" data-index="1" data-filter="veilles" onclick="onSidebarFilterNavAction(1, 'veilles')">
+                    <span class="nv-ico" data-fx="pop"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+                    <span class="text-xs">Veilles</span>
+                </button>
+                <button type="button" class="nimbus-item flex-1 justify-center" data-index="2" data-filter="favs" onclick="onSidebarFilterNavAction(2, 'favs')">
+                    <span class="nv-ico" data-fx="spin"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                    <span class="text-xs">Favoris</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-2.5 space-y-1">
+            <div class="text-[10px] uppercase font-bold tracking-wider text-neutral-400 px-2.5 py-1.5 flex items-center justify-between">
+                <span>Discussions récentes</span>
+                <span class="text-[9px] font-mono text-neutral-500">3 chats</span>
+            </div>
+            <button onclick="sendQuickPrompt('vas sur cdiscount et trouve moi le pc portable le moin chère avec une 5060')" class="w-full text-left p-2.5 rounded-xl hover:bg-white/10 text-xs font-medium text-neutral-300 truncate flex items-center space-x-2.5 transition tactile-btn">
+                <i data-lucide="laptop" class="w-4 h-4 text-neutral-400 flex-shrink-0"></i>
+                <span class="truncate">PC Gamer RTX 4060 Cdiscount</span>
+            </button>
+            <button onclick="sendQuickPrompt('trouve le macbook le moins cher actuellement')" class="w-full text-left p-2.5 rounded-xl hover:bg-white/10 text-xs font-medium text-neutral-300 truncate flex items-center space-x-2.5 transition tactile-btn">
+                <i data-lucide="apple" class="w-4 h-4 text-neutral-400 flex-shrink-0"></i>
+                <span class="truncate">Apple MacBook Air M2</span>
+            </button>
+            <button onclick="sendQuickPrompt('Surveille Amazon pour me choper une PS5 pas chère')" class="w-full text-left p-2.5 rounded-xl hover:bg-white/10 text-xs font-medium text-neutral-300 truncate flex items-center space-x-2.5 transition tactile-btn">
+                <i data-lucide="gamepad-2" class="w-4 h-4 text-neutral-400 flex-shrink-0"></i>
+                <span class="truncate">PS5 Slim Amazon</span>
+            </button>
+        </div>
+
+        <div class="p-3 border-t border-white/10 flex items-center justify-between text-xs">
+            <span class="text-neutral-400 font-mono text-[11px] flex items-center space-x-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>HoL AI</span>
+            </span>
+            <div class="flex items-center space-x-1">
+                <button onclick="togglePhoneConnectModal()" class="tactile-btn p-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10" title="Version mobile (QR Code & Accès réseau)">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                </button>
+                <button onclick="openSettingsModal()" class="tactile-btn p-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10" title="Paramètres">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ZONE PRINCIPALE DE DISCUSSION -->
+    <main class="flex-1 flex flex-col h-full w-full min-w-0 max-w-full relative overflow-hidden" id="main-chat-container">
+
+        <!-- COUCHE D'ARRIÈRE-PLAN DYNAMIQUE DE CONVERSATION (LIQUID CANVAS) -->
+        <div id="conversation-bg-layer" class="bg-preset-default"></div>
+
+        <!-- HEADER 1 : STYLE MESSAGERIE (DÉFAUT - Type Telegram / WhatsApp) -->
+                <!-- HEADER 1 : STYLE MESSAGERIE AVEC NIMBUS LIQUID GLASS NAVBAR INTGRE -->
+                <!-- HEADER 1 : STYLE MESSAGERIE AVEC NIMBUS LIQUID GLASS ACTIONS BAR -->
+        <header id="header-messaging" class="h-16 px-3 sm:px-4 flex items-center justify-between liquid-glass z-20 flex-shrink-0 w-full min-w-0">
+            <!-- Gauche : Avatar et statut -->
+            <div class="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-shrink-0 mr-2">
+                <div class="relative flex-shrink-0">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full apple-avatar flex items-center justify-center font-bold text-xs sm:text-sm">
+                        H
+                    </div>
+                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-400 border-2 border-[#08080a] rounded-full"></span>
+                </div>
+                <div class="min-w-0 truncate hidden xs:block">
+                    <div class="font-bold text-xs sm:text-sm text-neutral-900 dark:text-white flex items-center space-x-1.5">
+                        <span class="truncate sm:hidden">HoL AI</span>
+                        <span class="truncate hidden sm:inline">HoL AI Assistant</span>
+                        <span class="text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-neutral-300 font-mono font-semibold border border-white/10 flex-shrink-0">Live</span>
+                    </div>
+                    <div class="text-[10px] sm:text-[11px] text-neutral-400 flex items-center space-x-1 truncate">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                        <span class="truncate sm:hidden">En ligne</span>
+                        <span class="truncate hidden sm:inline">En ligne • Répond instantanément</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Bouton Accès Rapide Hub Connecteurs (Méschac Irung Style) -->
+            <button type="button" onclick="openConnectorsModal()" class="tactile-btn flex items-center space-x-1.5 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white text-xs border border-white/10 transition shadow-sm ml-2 cursor-pointer flex-shrink-0" title="Connecteurs & Intégrations (Gmail, Telegram, WhatsApp, Gemini)">
+                <i data-lucide="plug-zap" class="w-3.5 h-3.5 text-sky-400"></i>
+                <span class="text-[11px] font-medium hidden sm:inline">Connecteurs</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            </button>
+
+
+            <!-- Centre / Droite : NOUVELLE BARRE LIQUIDE ADAPTÉE AUX 6 ACTIONS CLÉS -->
+            <div class="flex items-center min-w-0 flex-1 justify-end">
+                <nav id="site-liquid-navbar" class="nimbus-nav" data-tone="dark" role="toolbar" aria-label="Actions rapides HoL AI">
+                    <canvas class="nimbus-water"></canvas>
+                    <div class="nimbus-glass"></div>
+                    <div class="nimbus-drop"></div>
+
+                    <!-- 1. [ 🌐 ] Computer-Use -->
+                    <button type="button" class="nimbus-item" data-index="0" data-action="computer-use" onclick="onLiquidNavAction(0, 'computer-use')" title="Ouvrir le navigateur virtuel en direct (Mode Take Over)">
+                        <span class="nv-ico" data-fx="spin">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="8.5" /><path d="M3.5 12h17M12 3.5c2.6 2.4 2.6 14.6 0 17M12 3.5c-2.6 2.4-2.6 14.6 0 17" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <!-- 2. [ 🤖 ] Jarvis Cockpit / IA Robot -->
+                    <button type="button" class="nimbus-item" data-index="1" data-action="jarvis" aria-current="page" onclick="onLiquidNavAction(1, 'jarvis')" title="Mode Jarvis & Assistant Vocal (Double-Clap ou Espace)">
+                        <span class="nv-ico" data-fx="glow">
+                            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 8V4H8" />
+                                <rect width="16" height="12" x="4" y="8" rx="2" />
+                                <path d="M2 14h2" />
+                                <path d="M20 14h2" />
+                                <path d="M15 13v2" />
+                                <path d="M9 13v2" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <!-- 3. [ 📱 ] Version Mobile -->
+                    <button type="button" class="nimbus-item hidden xs:inline-flex" data-index="2" data-action="phone" onclick="onLiquidNavAction(2, 'phone')" title="Ouvrir sur Téléphone (QR Code & Accès réseau)">
+                        <span class="nv-ico" data-fx="pop">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <!-- 4. [ 🌙 ] Thème Clair / Sombre -->
+                    <button type="button" class="nimbus-item" data-index="3" data-action="theme" onclick="onLiquidNavAction(3, 'theme')" title="Basculer Mode Clair / Sombre">
+                        <span class="nv-ico" data-fx="drop">
+                            <span id="theme-icon-top">
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                                </svg>
+                            </span>
+                        </span>
+                    </button>
+
+                    <!-- 5. [ 🟢 Veilles 24/7 ] Missions -->
+                    <button type="button" class="nimbus-item hidden sm:inline-flex" data-index="4" data-action="background" onclick="onLiquidNavAction(4, 'background')" title="Missions 24/7 & Veilles Autonomes">
+                        <span class="nv-ico" data-fx="plane">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block mr-1"></span>
+                        </span>
+                        <span class="font-mono text-[11px] font-semibold text-neutral-200">Veilles 24/7</span>
+                    </button>
+
+                    <!-- 6. [ ⚙️ Réglages ] Paramètres -->
+                    <button type="button" class="nimbus-item" data-index="5" data-action="settings" onclick="onLiquidNavAction(5, 'settings')" title="Paramètres & Styles">
+                        <span class="nv-ico" data-fx="spin">
+                            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </span>
+                        <span class="hidden md:inline text-xs font-medium text-neutral-200">Réglages</span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- <!-- SOUS-BARRE DE NAVIGATION : ESPACES META MUSE EN NIMBUS LIQUID GLASS -->
+        <div class="h-12 px-3 sm:px-4 liquid-glass border-b border-white/10 flex items-center justify-between text-xs overflow-visible z-10 flex-shrink-0">
+            <div class="flex items-center min-w-0">
+                <nav id="spaces-liquid-navbar" class="nimbus-nav nimbus-spaces-nav" data-tone="dark" role="navigation" aria-label="Espaces Meta Muse">
+                    <canvas class="nimbus-water"></canvas>
+                    <div class="nimbus-glass"></div>
+                    <div class="nimbus-drop"></div>
+
+                    <!-- 1. Flux -->
+                    <button type="button" class="nimbus-item space-tab-btn" id="space-feed-btn" data-index="0" data-space="feed" aria-current="page" onclick="onSpacesNavAction(0, 'feed')" title="Espace Flux & Live Chat">
+                        <span class="nv-ico" data-fx="glow">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg>
+                        </span>
+                        <span class="nimbus-label font-medium">Flux</span>
+                    </button>
+
+                    <!-- 2. Objectifs -->
+                    <button type="button" class="nimbus-item space-tab-btn" id="space-goals-btn" data-index="1" data-space="goals" onclick="onSpacesNavAction(1, 'goals')" title="Espace Objectifs & Roadmap">
+                        <span class="nv-ico" data-fx="plane">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
+                            </svg>
+                        </span>
+                        <span class="nimbus-label font-medium">Objectifs</span>
+                    </button>
+
+                    <!-- 3. Idées -->
+                    <button type="button" class="nimbus-item space-tab-btn" id="space-ideas-btn" data-index="2" data-space="ideas" onclick="onSpacesNavAction(2, 'ideas')" title="Espace Idées & Opportunités Web">
+                        <span class="nv-ico" data-fx="spin">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                                <path d="M9 18h6" /><path d="M10 22h4" />
+                            </svg>
+                        </span>
+                        <span class="nimbus-label font-medium">Idées</span>
+                    </button>
+
+                    <!-- 4. Artefacts -->
+                    <button type="button" class="nimbus-item space-tab-btn" id="space-artifacts-btn" data-index="3" data-space="artifacts" onclick="onSpacesNavAction(3, 'artifacts')" title="Espace Artefacts & Apps générées">
+                        <span class="nv-ico" data-fx="drop">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m7.5 4.27 9 5.15" />
+                                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                                <path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" />
+                            </svg>
+                        </span>
+                        <span class="nimbus-label font-medium">Artefacts</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- HEADER 2 : STYLE PERPLEXITY -->
+        <header id="header-perplexity" class="hidden h-16 px-3 sm:px-4 items-center justify-between liquid-glass border-b border-white/10 z-20 flex-shrink-0">
+            <div class="flex items-center space-x-2.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-neutral-300"></i>
+                <span class="text-neutral-900 dark:text-white font-bold text-sm">HoL AI Search & Deals</span>
+            </div>
+            <nav id="perplexity-liquid-navbar" class="nimbus-nav" data-tone="dark" role="toolbar">
+                <div class="nimbus-glass"></div>
+                <canvas class="nimbus-water" width="240" height="62"></canvas>
+                <div class="nimbus-drop"></div>
+                <button type="button" class="nimbus-item active" data-index="0" data-action="jarvis" onclick="onPerplexityNavAction(0, 'jarvis')">
+                    <span class="nv-ico" data-fx="glow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
+                    <span class="text-xs font-semibold">Jarvis</span>
+                </button>
+                <button type="button" class="nimbus-item" data-index="1" data-action="theme" onclick="onPerplexityNavAction(1, 'theme')">
+                    <span class="nv-ico" data-fx="drop"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+                </button>
+                <button type="button" class="nimbus-item" data-index="2" data-action="settings" onclick="onPerplexityNavAction(2, 'settings')">
+                    <span class="nv-ico" data-fx="spin"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09c-.658.003-1.25.396-1.51 1z"/></svg></span>
+                    <span class="text-xs">Réglages</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- HEADER 3 : STYLE CHATGPT -->
+        <header id="header-chatgpt" class="hidden h-16 px-3 sm:px-4 items-center justify-between liquid-glass border-b border-white/10 z-20 flex-shrink-0">
+            <div class="flex items-center space-x-2.5">
+                <button onclick="toggleSidebar()" class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10 transition"><i data-lucide="menu" class="w-4 h-4"></i></button>
+                <span class="font-bold text-sm text-neutral-900 dark:text-white">HoL AI Chat</span>
+            </div>
+            <nav id="chatgpt-liquid-navbar" class="nimbus-nav" data-tone="dark" role="toolbar">
+                <div class="nimbus-glass"></div>
+                <canvas class="nimbus-water" width="240" height="62"></canvas>
+                <div class="nimbus-drop"></div>
+                <button type="button" class="nimbus-item active" data-index="0" data-action="jarvis" onclick="onChatgptNavAction(0, 'jarvis')">
+                    <span class="nv-ico" data-fx="glow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
+                    <span class="text-xs font-semibold">Jarvis</span>
+                </button>
+                <button type="button" class="nimbus-item" data-index="1" data-action="theme" onclick="onChatgptNavAction(1, 'theme')">
+                    <span class="nv-ico" data-fx="drop"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+                </button>
+                <button type="button" class="nimbus-item" data-index="2" data-action="settings" onclick="onChatgptNavAction(2, 'settings')">
+                    <span class="nv-ico" data-fx="spin"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09c-.658.003-1.25.396-1.51 1z"/></svg></span>
+                    <span class="text-xs">Réglages</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- CONTENEUR DES MESSAGES -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto px-3 sm:px-6 pt-6 pb-44 space-y-5 max-w-3xl w-full mx-auto relative scroll-smooth ios-chat-scroll">
+            
+            <!-- Message de bienvenue -->
+            <div class="flex items-start space-x-3 msg-animate">
+                <div class="w-8 h-8 rounded-full apple-avatar flex-shrink-0 flex items-center justify-center text-xs font-bold text-white shadow-md">H</div>
+                <div class="space-y-3 max-w-[90%] sm:max-w-[82%]">
+                    <div class="bubble-assistant p-4 sm:p-5 rounded-2xl rounded-tl-sm text-sm text-neutral-800 dark:text-neutral-100 leading-relaxed shadow-sm">
+                        <div class="font-semibold text-base mb-1.5 flex items-center space-x-2 text-neutral-900 dark:text-white">
+                            <span>HoL AI</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-neutral-400 font-mono">v2.0</span>
+                        </div>
+                        <p class="text-[13.5px] leading-relaxed text-neutral-700 dark:text-neutral-300">
+                            Bonjour ! C'est <strong>HoL AI</strong>. Ton copilote personnel intelligent : dénicher les pépites et meilleures offres partout sur le web (neuf & occasion), suivre tes livraisons, planifier ta journée et exécuter tes tâches clés.
+                        </p>
+                        <div class="mt-3 pt-3 border-t border-white/10 text-xs text-neutral-500 dark:text-neutral-400 flex items-center space-x-1.5">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-neutral-400"></i>
+                            <span>Dis-moi ce que tu recherches ou choisis une suggestion rapide :</span>
+                        </div>
+                    </div>
+
+                    <!-- Suggestions de lancement rapide en 1 clic -->
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <button onclick="sendInteractiveAnswer('Fais-moi le briefing complet de ma journée')" class="tactile-btn px-3.5 py-2 rounded-2xl suggestion-chip text-xs font-medium transition cursor-pointer flex items-center space-x-2">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+                            <span>Briefing du jour</span>
+                        </button>
+                        <button onclick="sendInteractiveAnswer('trouve moi un iphone xr le moins cher sur tout internet')" class="tactile-btn px-3.5 py-2 rounded-2xl suggestion-chip text-xs font-medium transition cursor-pointer flex items-center space-x-2">
+                            <i data-lucide="smartphone" class="w-3.5 h-3.5 text-neutral-300"></i>
+                            <span>iPhone XR le moins cher</span>
+                        </button>
+                        <button onclick="sendInteractiveAnswer('trouve moi une crème visage hydratante')" class="tactile-btn px-3.5 py-2 rounded-2xl suggestion-chip text-xs font-medium transition cursor-pointer flex items-center space-x-2">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-neutral-300"></i>
+                            <span>Cosmétiques & Soins</span>
+                        </button>
+                        <button onclick="sendInteractiveAnswer('où en sont mes colis et livraisons ?')" class="tactile-btn px-3.5 py-2 rounded-2xl suggestion-chip text-xs font-medium transition cursor-pointer flex items-center space-x-2">
+                            <i data-lucide="package" class="w-3.5 h-3.5 text-neutral-300"></i>
+                            <span>Suivi de mes colis</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ZONE DE SAISIE FLOTTANTE EN BAS (FLOATING LIQUID GLASS DOCK) -->
+        <div class="fixed bottom-3 sm:bottom-5 inset-x-0 mx-auto max-w-3xl px-3 sm:px-4 z-30 pointer-events-none ios-dock-container">
+            <div class="pointer-events-auto liquid-glass liquid-glass-dock rounded-[28px] sm:rounded-[32px] p-2 sm:p-2.5 shadow-2xl">
+                <!-- Prévisualisation Pièce Jointe -->
+                <div id="attachment-preview" class="hidden"></div>
+
+                <!-- BARRE DU NIVEAU DE RÉFLEXION : DOUBLE LIQUID GLASS NAVBAR -->
+                <div class="flex items-center justify-between mb-2 px-1 text-xs">
+                    <!-- 1. Liquid Glass Navbar : Sélecteur de Modes -->
+                    <nav class="nimbus-nav nimbus-nav-thinking" id="thinking-liquid-navbar" data-tone="dark">
+                        <div class="nimbus-glass"></div>
+                        <canvas class="nimbus-water" width="320" height="62"></canvas>
+                        <div class="nimbus-drop"></div>
+
+                        <!-- 1. Flash -->
+                        <button type="button" class="nimbus-item thinking-tab-btn" id="thinking-fast-btn" data-index="0" data-level="fast" onclick="onThinkingNavAction(0, 'fast')" title="Flash / Rapide (Vitesse maximale)">
+                            <span class="nv-ico" data-fx="glow">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                </svg>
+                            </span>
+                            <span class="nimbus-label font-medium text-[11.5px]">Flash</span>
+                        </button>
+
+                        <!-- 2. Standard (Défaut) -->
+                        <button type="button" class="nimbus-item thinking-tab-btn active" id="thinking-standard-btn" data-index="1" data-level="standard" aria-current="page" onclick="onThinkingNavAction(1, 'standard')" title="Mode Standard (Équilibré & Factuel)">
+                            <span class="nv-ico" data-fx="spin">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a4 4 0 0 0-4 4v1a4 4 0 0 0-4 4 4 4 0 0 0 4 4v1a4 4 0 0 0 4 4 4 4 0 0 0 4-4v-1a4 4 0 0 0 4-4 4 4 0 0 0-4-4V6a4 4 0 0 0-4-4Z" />
+                                    <path d="M12 2v20" />
+                                </svg>
+                            </span>
+                            <span class="nimbus-label font-medium text-[11.5px]">Standard</span>
+                        </button>
+
+                        <!-- 3. Deep Thinking -->
+                        <button type="button" class="nimbus-item thinking-tab-btn" id="thinking-deep-btn" data-index="2" data-level="deep" onclick="onThinkingNavAction(2, 'deep')" title="Deep Thinking (Raisonnement poussé & Multi-étapes)">
+                            <span class="nv-ico" data-fx="plane">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 18h8" /><path d="M3 22h18" /><path d="M14 22a7 7 0 1 0 0-14h-1" /><path d="M9 14h2" /><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z" /><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3" />
+                                </svg>
+                            </span>
+                            <span class="nimbus-label font-medium text-[11.5px]">Deep</span>
+                        </button>
+
+                        <!-- 4. Ultra Research -->
+                        <button type="button" class="nimbus-item thinking-tab-btn" id="thinking-ultra-btn" data-index="3" data-level="ultra" onclick="onThinkingNavAction(3, 'ultra')" title="Ultra Research (Audit exhaustif multi-sources)">
+                            <span class="nv-ico" data-fx="drop">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44" />
+                                    <path d="m13.56 11.747 4.332-.924" />
+                                    <path d="m16 21-3.105-6.21" />
+                                    <path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a2 2 0 0 1 2.425 1.455l1.455 5.82a2 2 0 0 1-1.455 2.425l-1.09.272a2 2 0 0 1-2.425-1.455Z" />
+                                    <path d="m6 21 3.105-6.21" />
+                                    <path d="M8 21h8" />
+                                </svg>
+                            </span>
+                            <span class="nimbus-label font-medium text-[11.5px]">Ultra</span>
+                        </button>
+                    </nav>
+
+                    <!-- 2. Liquid Glass Navbar : Badge d'état Mode Actif -->
+                    <nav class="nimbus-nav nimbus-nav-thinking hidden sm:inline-flex" id="thinking-badge-nav" data-tone="dark">
+                        <div class="nimbus-glass"></div>
+                        <canvas class="nimbus-water" width="280" height="62"></canvas>
+                        <div class="nimbus-drop"></div>
+                        <div class="nimbus-item pointer-events-none" aria-current="page">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0 mr-1.5"></span>
+                            <span class="text-neutral-400">Mode actif :</span>
+                            <canvas id="header-thinking-orb" class="w-4 h-4 shrink-0 inline-block drop-shadow-[0_0_8px_rgba(56,189,248,0.5)] mr-1"></canvas>
+                        <span id="thinking-hint-text" class="text-neutral-200 font-semibold font-mono ml-1">Standard (Équilibré)</span>
+                        </div>
+                    </nav>
+                </div>
+
+                <!-- Formulaire de saisie dynamique -->
+                <form id="chat-form" onsubmit="handleChatSubmit(event)" class="relative flex items-center chat-form-liquid rounded-[22px] sm:rounded-[26px] focus-within:border-white/30 focus-within:shadow-[0_0_20px_rgba(56,189,248,0.12)] transition p-1">
+                    
+                    <!-- Bouton Trombone (Pièces Jointes) -->
+                    <button type="button" onclick="triggerAttachmentUpload()" class="tactile-btn p-2 sm:p-2.5 text-neutral-400 hover:text-white transition rounded-full hover:bg-white/10 flex items-center justify-center" title="Joindre une photo, reçu ou document">
+                        <i data-lucide="paperclip" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+                    <input type="file" id="chat-file-input" class="hidden" accept="image/*,.pdf,.txt" onchange="handleChatFileUpload(event)">
+
+                    <!-- Bouton Caméra Directe -->
+                    <button type="button" onclick="document.getElementById('camera-direct-input').click()" class="tactile-btn p-2 sm:p-2.5 text-neutral-400 hover:text-white transition rounded-full hover:bg-white/10 flex items-center justify-center" title="Prendre une photo caméra directe">
+                        <i data-lucide="camera" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+                    <input type="file" id="camera-direct-input" class="hidden" accept="image/*" capture="environment" onchange="handleDirectCameraUpload(event)">
+
+                    <!-- Champ Texte -->
+                    <input 
+                        type="text" 
+                        id="user-input" 
+                        placeholder="Poser une question, rechercher une offre..." 
+                        autocomplete="off"
+                        class="w-full bg-transparent py-2 sm:py-2.5 px-2 text-sm text-neutral-900 dark:text-white placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none"
+                    />
+
+                    <!-- Bouton Micro Vocal -->
+                    <button type="button" onclick="triggerVoiceInput()" id="mic-btn" class="tactile-btn p-2 sm:p-2.5 text-neutral-400 hover:text-white transition rounded-full hover:bg-white/10 flex items-center justify-center" title="Parler au micro (Web Speech)">
+                        <i data-lucide="mic" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+
+                    <!-- Bouton Envoyer -->
+                    <button type="submit" id="send-btn" class="tactile-btn p-2 sm:p-2.5 rounded-full bg-white dark:bg-white text-black hover:bg-neutral-200 shadow-md transition flex items-center justify-center flex-shrink-0" title="Envoyer">
+                        <i data-lucide="arrow-up" class="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]"></i>
+                    </button>
+                </form>
+
+
+            </div>
+        </div>
+
+    </main>
+
+
+
+    <!-- MODAL PARAMÈTRES (Sélection de Style, Thème, Clé API, Telegram) -->
+
+    <div id="settings-modal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+
+        <div class="liquid-glass rounded-3xl ios-sheet-modal max-w-xl sm:max-w-3xl lg:max-w-4xl w-full p-6 space-y-4 shadow-2xl text-slate-900 dark:text-white border border-white/15 max-h-[92vh] overflow-y-auto">
+            <div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-2 sm:hidden"></div>
+
+            
+
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/5">
+
+                <div class="flex items-center space-x-2">
+
+                    <i data-lucide="settings" class="w-4 h-4 text-neutral-200"></i>
+
+                    <span class="font-bold text-sm">Paramètres du Chatbot</span>
+
+                </div>
+
+                <button onclick="closeSettingsModal()" class="tactile-btn p-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10" title="Fermer"><i data-lucide="x" class="w-4 h-4"></i></button>
+
+            </div>
+
+            <!-- BANDEAU ONGLETS MODAL PARAMÈTRES (LIQUID GLASS) -->
+            <div class="flex items-center space-x-1.5 p-1 bg-black/40 dark:bg-white/5 rounded-2xl border border-white/10 text-xs select-none mt-2">
+                <button type="button" id="tab-btn-appearance" onclick="switchSettingsTab('appearance')" class="flex-1 py-2 px-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 bg-white text-black shadow-md cursor-pointer">
+                    <i data-lucide="palette" class="w-3.5 h-3.5"></i>
+                    <span>Apparence & Fonds 3D</span>
+                </button>
+                <button type="button" id="tab-btn-connectors" onclick="switchSettingsTab('connectors')" class="flex-1 py-2 px-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 text-neutral-400 hover:text-white cursor-pointer">
+                    <i data-lucide="plug-zap" class="w-3.5 h-3.5"></i>
+                    <span>Connecteurs & Intégrations</span>
+                    <span id="tab-connectors-count" class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-400 font-mono font-bold border border-emerald-500/30">4 / 8</span>
+                </button>
+            </div>
+
+
+            <!-- ONGLET 1 : APPARENCE & FONDS 3D -->
+            <div id="settings-tab-appearance" class="space-y-4 pt-2">
+<!-- Sélecteur de Style d'Interface (Liquid Glass) -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Style d'Interface :</label>
+                <nav class="nimbus-nav w-full" id="settings-style-liquid-navbar" data-tone="dark" role="tablist">
+                    <div class="nimbus-glass"></div>
+                    <canvas class="nimbus-water" width="380" height="62"></canvas>
+                    <div class="nimbus-drop"></div>
+                    <button type="button" class="nimbus-item flex-1 justify-center active" id="style-opt-messaging" data-index="0" data-style="messaging" onclick="onSettingsStyleNavAction(0, 'messaging')">
+                        <span class="nv-ico" data-fx="glow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+                        <span class="text-xs font-medium">Messagerie</span>
+                    </button>
+                    <button type="button" class="nimbus-item flex-1 justify-center" id="style-opt-perplexity" data-index="1" data-style="perplexity" onclick="onSettingsStyleNavAction(1, 'perplexity')">
+                        <span class="nv-ico" data-fx="spin"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+                        <span class="text-xs font-medium">Perplexity</span>
+                    </button>
+                    <button type="button" class="nimbus-item flex-1 justify-center" id="style-opt-chatgpt" data-index="2" data-style="chatgpt" onclick="onSettingsStyleNavAction(2, 'chatgpt')">
+                        <span class="nv-ico" data-fx="pop"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                        <span class="text-xs font-medium">ChatGPT</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Sélecteur de Thème Visuel (Liquid Glass) -->
+            <div class="space-y-2 pt-2 border-t border-slate-200 dark:border-white/5">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300">Ambiance Visuelle :</label>
+                <nav class="nimbus-nav w-full" id="settings-theme-liquid-navbar" data-tone="dark" role="tablist">
+                    <div class="nimbus-glass"></div>
+                    <canvas class="nimbus-water" width="380" height="62"></canvas>
+                    <div class="nimbus-drop"></div>
+                    <button type="button" class="nimbus-item flex-1 justify-center active" id="theme-btn-dark" data-index="0" data-theme="dark" onclick="onSettingsThemeNavAction(0, 'dark')">
+                        <span class="nv-ico" data-fx="glow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+                        <span class="text-xs font-medium">Mode Sombre</span>
+                    </button>
+                    <button type="button" class="nimbus-item flex-1 justify-center" id="theme-btn-light" data-index="1" data-theme="light" onclick="onSettingsThemeNavAction(1, 'light')">
+                        <span class="nv-ico" data-fx="spin"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+                        <span class="text-xs font-medium">Mode Clair</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Sélecteur de Fond d'écran des Conversations : Hero Carousel (crafterui/hero-carousel 21st.dev) -->
+            <div class="space-y-3 pt-2 border-t border-slate-200 dark:border-white/5">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center space-x-1.5">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-400"></i>
+                        <span>Hero Carousel (14 Fonds d'écran) :</span>
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <span id="active-bg-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">Globe 3D</span>
+                        <button type="button" onclick="openHeroCarouselPanoramic()" class="tactile-btn text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition flex items-center space-x-1" title="Agrandir en plein écran immersif 3D">
+                            <i data-lucide="maximize-2" class="w-3 h-3 text-sky-300"></i>
+                            <span>3D Plein Écran</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- COMPOSANT HERO CAROUSEL CRAFTERUI EMBARQUÉ -->
+                <div id="settings-hero-carousel-container" class="hero-carousel-container h-64 w-full flex flex-col justify-between p-3.5" tabindex="0" role="region" aria-label="Hero Carousel des fonds d'écran">
+                    <!-- Texture fractal noise overlay -->
+                    <div class="hero-carousel-noise"></div>
+
+                    <!-- Fond dynamique réactif (Active Slide Backdrop) -->
+                    <div id="hero-carousel-backdrop" class="absolute inset-0 z-0 overflow-hidden transition-all duration-700 pointer-events-none">
+                        <div id="hero-carousel-backdrop-media" class="w-full h-full scale-110 opacity-70 transition-all duration-700"></div>
+                        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/85"></div>
+                    </div>
+
+                    <!-- Barre supérieure de navigation du carrousel -->
+                    <div class="relative z-10 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <span id="hero-carousel-cat" class="text-[9px] font-mono tracking-widest uppercase px-2 py-0.5 rounded-md bg-white/10 border border-white/15 text-sky-300 backdrop-blur-md">21ST.DEV SHADER</span>
+                            <span id="hero-carousel-status" class="text-[9px] font-mono px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span>Actif ✓</span>
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button type="button" onclick="heroCarouselPrev(event)" class="hero-nav-btn" title="Fond Précédent (←)">
+                                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                            </button>
+                            <span id="hero-carousel-counter" class="font-mono text-xs tabular-nums text-white/90 px-1 font-bold">01 / 14</span>
+                            <button type="button" onclick="heroCarouselNext(event)" class="hero-nav-btn" title="Fond Suivant (→)">
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Titre split & auteur du fond sélectionné -->
+                    <div class="relative z-10 px-1 pt-1">
+                        <h3 id="hero-carousel-title" class="font-extrabold text-base sm:text-lg text-white leading-tight tracking-tight drop-shadow-md">Globe 3D Holographique</h3>
+                        <p id="hero-carousel-author" class="font-mono text-[9.5px] uppercase tracking-[0.14em] text-slate-300/80 drop-shadow">BY LN-DEV7 (21ST.DEV)</p>
+                    </div>
+
+                    <!-- Piste 3D Coverflow des Cartes (Track) -->
+                    <div class="hero-carousel-track-container relative z-10" id="hero-carousel-track-wrapper">
+                        <div id="hero-carousel-track" class="hero-carousel-track">
+                            <!-- Les 14 cartes générées dynamiquement par initHeroCarousel() -->
+                        </div>
+                    </div>
+
+                    <!-- Barre de progression et tags d'ambiance -->
+                    <div class="relative z-10 flex flex-col space-y-1.5 pt-0.5">
+                        <div class="flex items-center justify-between text-[9px] font-mono text-slate-300/70 tracking-wider">
+                            <span id="hero-carousel-tags">SHADER 3D • INTERACTIF • WEBGL</span>
+                            <span class="text-sky-400 font-semibold">Cliquer pour activer</span>
+                        </div>
+                        <div class="relative h-1 w-full bg-white/15 rounded-full overflow-hidden">
+                            <div id="hero-carousel-progress-bar" class="absolute inset-y-0 bg-sky-400 rounded-full transition-all duration-300" style="width: 7.14%; left: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Option Image / Papier Peint Personnalisé -->
+                <div class="pt-1.5">
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="text-[11px] font-semibold text-slate-400 flex items-center space-x-1">
+                            <i data-lucide="link" class="w-3 h-3 text-neutral-400"></i>
+                            <span>Ou image / URL personnalisée :</span>
+                        </label>
+                        <span id="custom-bg-status" class="text-[9px] text-neutral-400 font-mono"></span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <input 
+                            id="custom-bg-input" 
+                            type="url" 
+                            placeholder="https://images.unsplash.com/... ou URL image" 
+                            class="flex-1 bg-slate-100 dark:bg-[#08080a] border border-slate-300 dark:border-white/10 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:border-sky-400 font-mono transition"
+                            oninput="onCustomBgInputChanged()"
+                        />
+                        <button type="button" onclick="applyCustomChatBackground()" class="tactile-btn px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs shadow-sm transition flex items-center space-x-1 flex-shrink-0">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Appliquer</span>
+                        </button>
+                    </div>
+                    <!-- Quick sample wallpaper chips -->
+                    <div class="flex items-center space-x-1.5 pt-1.5 text-[10px] text-neutral-400">
+                        <span>Exemples :</span>
+                        <button type="button" onclick="applyPresetSampleBg('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1600&auto=format&fit=crop')" class="hover:text-sky-300 underline cursor-pointer">Montagnes Néon</button>
+                        <span>•</span>
+                        <button type="button" onclick="applyPresetSampleBg('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop')" class="hover:text-sky-300 underline cursor-pointer">Yosemite</button>
+                        <span>•</span>
+                        <button type="button" onclick="applyPresetSampleBg('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1600&auto=format&fit=crop')" class="hover:text-sky-300 underline cursor-pointer">Cosmos 4K</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Clé API Gemini -->
+
+            <div class="space-y-1.5 pt-2 border-t border-slate-200 dark:border-white/5">
+
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center justify-between">
+
+                    <span>Clé API Gemini :</span>
+
+                    <span class="text-[10px] text-emerald-500 dark:text-emerald-400 font-mono">Connectée 200 OK</span>
+
+                </label>
+
+                <input 
+
+                    id="api-key-input" 
+
+                    type="password" 
+
+                    placeholder="AQ.Ab8RN6J0nOhI5t..." 
+
+                    class="w-full bg-slate-100 dark:bg-[#08080a] border border-slate-300 dark:border-white/10 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-white/40 font-mono"
+
+                />
+
+            </div>
+            </div>
+
+
+            <!-- ONGLET 2 : CONNECTEURS & INTÉGRATIONS (RAVI KATIYAR / 21ST.DEV INTEGRATION-SHOWCASE) -->
+            <div id="settings-tab-connectors" class="space-y-6 hidden pt-2 select-none">
+                
+                <!-- EN-TÊTE 21ST.DEV : INTEGRATION SHOWCASE BY @RAVIKATIYAR162 -->
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/5 via-sky-500/5 to-purple-500/5 border border-white/10 p-6 sm:p-8 backdrop-blur-xl">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <!-- Colonne Gauche : Titre Highlighté & Métriques -->
+                        <div class="lg:col-span-7 space-y-3">
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold">
+                                <i data-lucide="blocks" class="w-3.5 h-3.5"></i>
+                                <span>21st.dev Component • ravikatiyar162/integration-showcase</span>
+                            </div>
+                            
+                            <!-- Titre avec coup de pinceau manuscrit sous "favoris" -->
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
+                                Connectez vos outils 
+                                <span class="relative inline-block whitespace-nowrap text-sky-400">
+                                    <span class="relative z-10">favoris</span>
+                                    <svg aria-hidden="true" viewBox="0 0 418 42" class="absolute -bottom-1.5 left-0 h-auto w-full text-sky-400 fill-current pointer-events-none" preserveAspectRatio="none">
+                                        <path d="M203.371.916c-26.013-2.078-76.686 1.98-114.243 8.919-37.556 6.939-78.622 17.103-122.256 28.703-43.633 11.6-4.984 14.306 43.123 7.021 48.107-7.285 93.638-16.096 146.446-17.742 52.808-1.646 105.706 5.429 158.649 14.13 52.943 8.701 105.886 19.342 158.826 29.483 52.94 10.141 52.94 10.141-11.41-19.043C371.18 14.363 322.753 5.488 281.339 2.143 239.925-1.201 203.371.916 203.371.916z"/>
+                                    </svg>
+                                </span>
+                            </h2>
+                            
+                            <p class="text-xs sm:text-sm text-neutral-300 leading-relaxed max-w-xl">
+                                Gagnez du temps en synchronisant vos outils quotidiens avec l'intelligence HoL AI. Pilotez vos flux d'e-mails, bots de messagerie, agendas et automatisations en un clic.
+                            </p>
+
+                            <!-- Barre de santé globale dynamique -->
+                            <div class="inline-flex items-center space-x-3 px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-xs mt-2">
+                                <span class="flex items-center space-x-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span id="connectors-health-summary" class="font-bold text-emerald-400">-- sur -- Actifs</span>
+                                </span>
+                                <span class="text-neutral-500">•</span>
+                                <span class="font-mono text-emerald-400 font-bold" id="connectors-health-percent">--% Opérationnel</span>
+                                <div class="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                    <div id="connectors-health-bar" class="h-full bg-emerald-400 rounded-full transition-all duration-500" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Colonne Droite : Illustration dessinée à la main officielle 21st.dev -->
+                        <div class="lg:col-span-5 flex justify-center lg:justify-end">
+                            <div class="relative group p-2">
+                                <div class="absolute -inset-1 bg-gradient-to-r from-sky-500/20 to-purple-500/20 rounded-3xl blur-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
+                                <img src="/static/assets/integration-illustration.png" alt="Illustration Checklist 21st.dev" class="relative w-44 sm:w-56 h-auto object-contain select-none pointer-events-none drop-shadow-2xl transition-transform duration-300 group-hover:scale-105" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BANNIÈRE DE FEEDBACK INTERACTION TEMPS RÉEL -->
+                <div id="connector-feedback-banner" class="hidden p-3.5 rounded-2xl text-xs flex items-center justify-between border transition-all duration-300">
+                    <div class="flex items-center space-x-2.5">
+                        <i id="connector-feedback-icon" data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span id="connector-feedback-text" class="font-medium">Statut mis à jour</span>
+                    </div>
+                    <button type="button" onclick="dismissConnectorFeedback()" class="text-neutral-400 hover:text-white p-1 rounded-lg">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+
+                <!-- GRILLE DE CARTES SHOWCASE RESPONSIVE (12 CONNECTEURS & INTÉGRATIONS) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
+                    
+                    <!-- 1. Gmail -->
+                    <div id="card-gmail" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-sky-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/gmail.svg" alt="Gmail" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-sky-400 transition-colors">Google Workspace / Gmail</h3>
+                                        <span class="text-[10px] text-neutral-400">Boîte de Réception & Tri</span>
+                                    </div>
+                                </div>
+                                <span id="badge-gmail" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-zinc-500/20 text-zinc-400 border border-zinc-500/30 whitespace-nowrap">Prêt (Simu)</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Lecture, résumé intelligent et classement prioritaire des e-mails via protocole IMAP SSL sécurisé.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('gmail')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-sky-500/20 text-neutral-300 hover:text-sky-300 text-[11px] font-medium border border-white/10 hover:border-sky-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('gmail')" class="py-1.5 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-400 text-[11px] font-medium border border-sky-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Telegram Bot -->
+                    <div id="card-telegram" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-sky-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/telegram.svg" alt="Telegram" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-sky-400 transition-colors">Telegram Mobile</h3>
+                                        <span class="text-[10px] text-neutral-400">Passerelle Bot & Alertes</span>
+                                    </div>
+                                </div>
+                                <span id="badge-telegram" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-zinc-500/20 text-zinc-400 border border-zinc-500/30 whitespace-nowrap">Prêt (Simu)</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Contrôlez HoL AI directement depuis Telegram. Recevez des alertes en temps réel et envoyez des prompts à distance.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('telegram')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-sky-500/20 text-neutral-300 hover:text-sky-300 text-[11px] font-medium border border-white/10 hover:border-sky-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('telegram')" class="py-1.5 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-400 text-[11px] font-medium border border-sky-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. WhatsApp Cloud API -->
+                    <div id="card-whatsapp" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-emerald-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/whatsapp.svg" alt="WhatsApp" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">WhatsApp Cloud</h3>
+                                        <span class="text-[10px] text-neutral-400">Meta Graph API</span>
+                                    </div>
+                                </div>
+                                <span id="badge-whatsapp" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-zinc-500/20 text-zinc-400 border border-zinc-500/30 whitespace-nowrap">Prêt (Simu)</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Intégration officielle WhatsApp Cloud pour interagir avec vos agents et recevoir vos récapitulatifs quotidiens.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('whatsapp')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-emerald-500/20 text-neutral-300 hover:text-emerald-300 text-[11px] font-medium border border-white/10 hover:border-emerald-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('whatsapp')" class="py-1.5 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-[11px] font-medium border border-emerald-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Gemini Brain -->
+                    <div id="card-gemini" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/gemini.svg" alt="Gemini" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-purple-400 transition-colors">Gemini 3.1 Flash Lite</h3>
+                                        <span class="text-[10px] text-neutral-400">Moteur Cérébral IA</span>
+                                    </div>
+                                </div>
+                                <span id="badge-gemini" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">Connecté ✓</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Raisonnement logique, synthèse multimodale et vision par Google DeepMind.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('gemini')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-purple-500/20 text-neutral-300 hover:text-purple-300 text-[11px] font-medium border border-white/10 hover:border-purple-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('gemini')" class="py-1.5 px-3 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-[11px] font-medium border border-purple-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 5. Google Calendar -->
+                    <div id="card-google_calendar" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/calendar.svg" alt="Google Calendar" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-blue-400 transition-colors">Google Calendar</h3>
+                                        <span class="text-[10px] text-neutral-400">Agenda & Rappels</span>
+                                    </div>
+                                </div>
+                                <span id="badge-google_calendar" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-zinc-500/20 text-zinc-400 border border-zinc-500/30 whitespace-nowrap">Prêt (Simu)</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Planification proactive de rendez-vous, détection de conflits et alertes d'échéances.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('google_calendar')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-blue-500/20 text-neutral-300 hover:text-blue-300 text-[11px] font-medium border border-white/10 hover:border-blue-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('google_calendar')" class="py-1.5 px-3 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 text-[11px] font-medium border border-blue-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 6. E-Commerce (Amazon, Vinted, Leboncoin) -->
+                    <div id="card-ecommerce" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-amber-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/ecommerce.svg" alt="E-commerce" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-amber-400 transition-colors">Chasseur E-Commerce</h3>
+                                        <span class="text-[10px] text-neutral-400">Amazon, Vinted, Leboncoin</span>
+                                    </div>
+                                </div>
+                                <span id="badge-ecommerce" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">✓ Actif Natif</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Surveillance automatique des baisses de prix, détection des bonnes affaires et alertes réapprovisionnement.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('ecommerce')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-amber-500/20 text-neutral-300 hover:text-amber-300 text-[11px] font-medium border border-white/10 hover:border-amber-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <span class="text-[10px] text-emerald-400 font-mono flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                <span>Prêt à l'emploi</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 7. Catalogue 1 079 APIs Publiques -->
+                    <div id="card-public_apis" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-cyan-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/apis.svg" alt="1 079 APIs" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-cyan-400 transition-colors">1 079 APIs Publiques</h3>
+                                        <span class="text-[10px] text-neutral-400">Open Data & Services</span>
+                                    </div>
+                                </div>
+                                <span id="badge-public_apis" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">✓ Actif Natif</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Météo en direct, cours cryptos, taux de change, géolocalisation IP et dictionnaires sans clé requise.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('public_apis')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-cyan-500/20 text-neutral-300 hover:text-cyan-300 text-[11px] font-medium border border-white/10 hover:border-cyan-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <span class="text-[10px] text-emerald-400 font-mono flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                <span>100% Autonome</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 8. Contrôle Bureau Windows -->
+                    <div id="card-windows_os" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/windows.svg" alt="Windows" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-blue-400 transition-colors">Système Windows 11</h3>
+                                        <span class="text-[10px] text-neutral-400">PowerShell & Fichiers</span>
+                                    </div>
+                                </div>
+                                <span id="badge-windows_os" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">✓ Actif Natif</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Lancement d'applications, ouverture d'explorateur, scripts PowerShell et gestion de fichiers locaux.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('windows_os')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-blue-500/20 text-neutral-300 hover:text-blue-300 text-[11px] font-medium border border-white/10 hover:border-blue-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <span class="text-[10px] text-emerald-400 font-mono flex items-center space-x-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                <span>OS Connecté</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 9. Notion -->
+                    <div id="card-notion" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-neutral-400/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/notion.svg" alt="Notion" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-neutral-200 transition-colors">Notion</h3>
+                                        <span class="text-[10px] text-neutral-400">Pages, BDD & Notes</span>
+                                    </div>
+                                </div>
+                                <span id="badge-notion" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-sky-500/20 text-sky-400 border border-sky-500/30 whitespace-nowrap">Disponible</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Synchronisation automatique de synthèses, bases de connaissances et tâches vers vos pages Notion.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('notion')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-neutral-500/20 text-neutral-300 hover:text-white text-[11px] font-medium border border-white/10 hover:border-neutral-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('notion')" class="py-1.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-medium border border-white/20 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 10. Google Sheets -->
+                    <div id="card-sheets" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-emerald-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/sheets.svg" alt="Google Sheets" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">Google Sheets</h3>
+                                        <span class="text-[10px] text-neutral-400">Tableurs & Données</span>
+                                    </div>
+                                </div>
+                                <span id="badge-sheets" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-sky-500/20 text-sky-400 border border-sky-500/30 whitespace-nowrap">Disponible</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Exportation de données de scraping, rapports financiers et tables de prix directement dans vos classeurs.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('sheets')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-emerald-500/20 text-neutral-300 hover:text-emerald-300 text-[11px] font-medium border border-white/10 hover:border-emerald-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('sheets')" class="py-1.5 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 text-[11px] font-medium border border-emerald-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 11. Slack -->
+                    <div id="card-slack" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/slack.svg" alt="Slack" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-purple-400 transition-colors">Slack</h3>
+                                        <span class="text-[10px] text-neutral-400">Canaux & Équipe</span>
+                                    </div>
+                                </div>
+                                <span id="badge-slack" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-sky-500/20 text-sky-400 border border-sky-500/30 whitespace-nowrap">Disponible</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Envoi de notifications d'incidents, rapports d'analyse et résumés directement dans vos canaux d'équipe.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('slack')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-purple-500/20 text-neutral-300 hover:text-purple-300 text-[11px] font-medium border border-white/10 hover:border-purple-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('slack')" class="py-1.5 px-3 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-[11px] font-medium border border-purple-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 12. Webhooks HTTP -->
+                    <div id="card-webhooks" class="liquid-glass rounded-2xl p-4 border border-white/10 hover:border-pink-500/50 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                        <div>
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <img src="/static/assets/icons/webhooks.svg" alt="Webhooks" class="w-full h-full object-contain" />
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-sm text-white group-hover:text-pink-400 transition-colors">Webhooks HTTP</h3>
+                                        <span class="text-[10px] text-neutral-400">REST API & Triggers</span>
+                                    </div>
+                                </div>
+                                <span id="badge-webhooks" class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-sky-500/20 text-sky-400 border border-sky-500/30 whitespace-nowrap">Disponible</span>
+                            </div>
+                            <p class="text-xs text-neutral-400 line-clamp-2 mb-3">
+                                Déclenchement de requêtes POST JSON vers vos microservices, lambdas ou serveurs tiers lors d'événements.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+                            <button type="button" onclick="testConnectorAction('webhooks')" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-pink-500/20 text-neutral-300 hover:text-pink-300 text-[11px] font-medium border border-white/10 hover:border-pink-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
+                                <span>Tester</span>
+                            </button>
+                            <button type="button" onclick="openConnectorDrawer('webhooks')" class="py-1.5 px-3 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 text-pink-400 text-[11px] font-medium border border-pink-500/30 transition-all flex items-center justify-center space-x-1 cursor-pointer">
+                                <i data-lucide="settings-2" class="w-3 h-3"></i>
+                                <span>Configurer</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DRAWER FLOTTANT DE CONFIGURATION DES CONNECTEURS (21ST.DEV) -->
+    <div id="connector-config-drawer" class="hidden fixed inset-0 z-[85] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 select-none">
+        <div class="liquid-glass rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-white/20 shadow-2xl space-y-5 text-white max-h-[90vh] overflow-y-auto relative animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <div class="flex items-center space-x-3">
+                    <div id="drawer-icon-container" class="w-10 h-10 rounded-xl bg-white/10 border border-white/15 p-2 flex items-center justify-center">
+                        <i data-lucide="plug" class="w-5 h-5 text-sky-400"></i>
+                    </div>
+                    <div>
+                        <h3 id="drawer-title" class="font-bold text-base text-white">Configurer le Connecteur</h3>
+                        <p id="drawer-subtitle" class="text-xs text-neutral-400">Paramètres et authentification</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeConnectorDrawer()" class="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10 transition cursor-pointer" title="Fermer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Formulaires spécifiques dynamiques -->
+            <div id="drawer-form-content" class="space-y-4 text-xs">
+                <!-- Injected by openConnectorDrawer() -->
+            </div>
+
+            <!-- Feedback console dans le drawer -->
+            <div id="drawer-feedback-box" class="hidden p-3 rounded-xl text-xs font-mono border"></div>
+
+            <!-- Actions Drawer -->
+            <div class="pt-4 border-t border-white/10 flex items-center justify-end space-x-2">
+                <button type="button" onclick="closeConnectorDrawer()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 text-xs font-medium transition cursor-pointer">
+                    Fermer
+                </button>
+                <button type="button" id="drawer-test-btn" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                    <span>Tester le Ping</span>
+                </button>
+                <button type="button" id="drawer-save-btn" class="px-5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-black text-xs font-bold transition flex items-center space-x-1.5 shadow-lg shadow-sky-500/20 cursor-pointer">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    <span>Enregistrer</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    

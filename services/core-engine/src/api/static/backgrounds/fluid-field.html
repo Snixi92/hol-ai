@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champ Fluide Soyeux - 21st.dev</title>
+    <!-- Three.js r128 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #030306;
+        }
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            pointer-events: none;
+        }
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.08;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <div class="grain-overlay"></div>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('bg-canvas');
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+            const scene = new THREE.Scene();
+            const geometry = new THREE.PlaneGeometry(2, 2);
+
+            const vertexShader = `
+                void main() {
+                    gl_Position = vec4(position, 1.0);
+                }
+            `;
+
+            const fragmentShader = `
+                uniform float u_time;
+                uniform vec2 u_resolution;
+                uniform vec2 u_mouse;
+                uniform float u_theme; // 1.0 = dark, 0.0 = light
+
+                vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+                
+                float snoise(vec2 v) {
+                    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                    vec2 i  = floor(v + dot(v, C.yy));
+                    vec2 x0 = v -   i + dot(i, C.xx);
+                    vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                    vec4 x12 = x0.xyxy + C.xxzz;
+                    x12.xy -= i1;
+                    i = mod289(i);
+                    vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+                    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                    m = m*m;
+                    m = m*m;
+                    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+                    vec3 h = abs(x) - 0.5;
+                    vec3 ox = floor(x + 0.5);
+                    vec3 a0 = x - ox;
+                    m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+                    vec3 g;
+                    g.x  = a0.x  * x0.x  + h.x  * x0.y;
+                    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+                    return 130.0 * dot(m, g);
+                }
+
+                void main() {
+                    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+                    uv.x *= u_resolution.x / u_resolution.y;
+
+                    vec3 baseDark = vec3(0.012, 0.012, 0.024);
+                    vec3 baseLight = vec3(0.96, 0.96, 0.98);
+                    vec3 baseColor = mix(baseLight, baseDark, u_theme);
+
+                    vec2 mouseOffset = (u_mouse - 0.5) * 0.15;
+                    vec2 st = (uv + mouseOffset) * 0.7;
+                    st += vec2(snoise(st + u_time * 0.05), snoise(st - u_time * 0.05)) * 0.35;
+
+                    float beam = smoothstep(0.05, 0.85, snoise(vec2(st.x + st.y * 1.5 - u_time * 0.12, u_time * 0.02)));
+                    vec3 glowColor1 = vec3(0.20, 0.35, 0.95); // Deep Indigo/Electric Blue
+                    vec3 glowColor2 = vec3(0.55, 0.20, 0.95); // Purple/Violet
+                    vec3 glow = mix(glowColor1, glowColor2, snoise(uv * 1.5 + u_time * 0.08) * 0.5 + 0.5);
+
+                    float intensity = mix(0.45, 0.85, u_theme);
+                    gl_FragColor = vec4(baseColor + (glow * beam * intensity), 1.0);
+                }
+            `;
+
+            const uniforms = {
+                u_time: { value: 0.0 },
+                u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+                u_mouse: { value: new THREE.Vector2(0.5, 0.5) },
+                u_theme: { value: 1.0 }
+            };
+
+            const material = new THREE.ShaderMaterial({
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                uniforms: uniforms
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            const clock = new THREE.Clock();
+            function animate() {
+                uniforms.u_time.value = clock.getElapsedTime();
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            function onResize() {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+            }
+            window.addEventListener('resize', onResize);
+
+            // HoL AI Bridge: Mousemove & Theme
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const theme = urlParams.get('theme') || 'dark';
+                uniforms.u_theme.value = theme === 'dark' ? 1.0 : 0.0;
+                document.body.style.backgroundColor = theme === 'dark' ? '#030306' : '#f5f5f7';
+            } catch(e) {}
+
+            window.addEventListener('message', function(e) {
+                if (!e.data) return;
+                if (e.data.type === 'mousemove') {
+                    const normX = e.data.clientX / window.innerWidth;
+                    const normY = 1.0 - (e.data.clientY / window.innerHeight);
+                    uniforms.u_mouse.value.set(normX, normY);
+                } else if (e.data.type === 'setTheme') {
+                    const isDark = e.data.theme === 'dark';
+                    uniforms.u_theme.value = isDark ? 1.0 : 0.0;
+                    document.body.style.backgroundColor = isDark ? '#030306' : '#f5f5f7';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

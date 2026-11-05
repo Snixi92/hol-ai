@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-10-26 23:55:58",
+  "total_iterations": 1000,
+  "total_success": 1000,
+  "total_failed": 0,
+  "global_pass_rate_percent": 100.0,
+  "total_duration_seconds": 32.13,
+  "throughput_ops_per_second": 31.13,
+  "memory_traced_current_mb": 8.71,
+  "memory_traced_peak_mb": 8.79,
+  "domain_breakdown": {
+    "domain_1_commerce": {
+      "name": "Domain 1: E-Commerce, OmniSearch & Second-Hand",
+      "runs": 200,
+      "success": 200,
+      "failed": 0,
+      "pass_rate_pct": 100.0,
+      "total_duration_s": 11.679,
+      "mean_latency_ms": 58.4,
+      "p95_latency_ms": 0.48
+    },
+    "domain_2_finance_logistics": {
+      "name": "Domain 2: Finance, VAT, Margins & Logistics",
+      "runs": 200,
+      "success": 200,
+      "failed": 0,
+      "pass_rate_pct": 100.0,
+      "total_duration_s": 0.011,
+      "mean_latency_ms": 0.06,
+      "p95_latency_ms": 0.07
+    },
+    "domain_3_tools_parity": {
+      "name": "Domain 3: 44 Cognitive Tools & Parity Agents",
+      "runs": 200,
+      "success": 200,
+      "failed": 0,
+      "pass_rate_pct": 100.0,
+      "total_duration_s": 0.232,
+      "mean_latency_ms": 1.16,
+      "p95_latency_ms": 4.04
+    },
+    "domain_4_prompts_fuzzing": {
+      "name": "Domain 4: Multilingual Mirroring, Darija & Prompt Fuzzing",
+      "runs": 200,
+      "success": 200,
+      "failed": 0,
+      "pass_rate_pct": 100.0,
+      "total_duration_s": 0.061,
+      "mean_latency_ms": 0.3,
+      "p95_latency_ms": 0.26
+    },
+    "domain_5_orchestrator_bus": {
+      "name": "Domain 5: DAG Orchestrator, StreamBus & Concurrency",
+      "runs": 200,
+      "success": 200,
+      "failed": 0,
+      "pass_rate_pct": 100.0,
+      "total_duration_s": 0.198,
+      "mean_latency_ms": 0.99,
+      "p95_latency_ms": 1.39
+    }
+  }
+}
