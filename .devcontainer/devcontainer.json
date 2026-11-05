@@ -1,6 +1,11 @@
 {
   "name": "HoL AI Dev Container",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
   "forwardPorts": [8000],
   "portsAttributes": {
     "8000": {
@@ -10,12 +15,5 @@
     }
   },
   "postCreateCommand": "pip install -r services/core-engine/requirements.txt",
-  "postStartCommand": "nohup python services/core-engine/main.py > /tmp/hol-ai.log 2>&1 &",
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python"
-      }
-    }
-  }
+  "postStartCommand": "nohup python services/core-engine/main.py > /tmp/hol-ai.log 2>&1 &"
 }
