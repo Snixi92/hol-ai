@@ -655,7 +655,8 @@ async def chat_stream_endpoint(req: ChatMessageRequest):
                 "persona": persona_name,
                 "citations": [],
                 "session_id": session.session_id,
-                "engine": "emergency_fallback"
+                "engine": "emergency_fallback",
+                "debug_error": str(top_err)
             })
 
     async def sse_generator():
@@ -2416,6 +2417,35 @@ async def serve_canvas_cockpit():
 @app.get("/ping")
 async def health_check():
     return {"status": "ok", "app": "HoL AI"}
+
+
+@app.get("/api/debug/test-chat")
+async def debug_test_chat():
+    from src.services.cognitive_engine import CognitiveAgentEngine
+    from src.services.llm_engine import LLMBrain
+    import traceback
+    key = LLMBrain.get_api_key()
+    try:
+        res = await CognitiveAgentEngine.process_chat(
+            user_message="t cool??",
+            session_id="debug_sess_direct",
+            model="gemini-3.5-flash-lite"
+        )
+        return {
+            "status": "ok",
+            "reply": res.get("reply"),
+            "model": res.get("model"),
+            "key_present": bool(key),
+            "key_preview": f"{key[:6]}...{key[-4:]}" if key else None
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+            "key_present": bool(key),
+            "key_preview": f"{key[:6]}...{key[-4:]}" if key else None
+        }
 
 
 @app.get("/manifest.json")
