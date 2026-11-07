@@ -10,9 +10,12 @@ from typing import Dict, Any, List, Optional
 import httpx
 from bs4 import BeautifulSoup
 try:
-    from ddgs import DDGS
-except ImportError:
     from duckduckgo_search import DDGS
+except ImportError:
+    try:
+        from ddgs import DDGS
+    except ImportError:
+        DDGS = None
 
 logger = logging.getLogger("hol_ai.web_research_agent")
 

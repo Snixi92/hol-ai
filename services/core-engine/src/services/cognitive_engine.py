@@ -14,9 +14,12 @@ import urllib.parse
 from typing import Dict, Any, List, Optional
 from pathlib import Path
 try:
-    from ddgs import DDGS
-except ImportError:
     from duckduckgo_search import DDGS
+except ImportError:
+    try:
+        from ddgs import DDGS
+    except ImportError:
+        DDGS = None
 
 from src.services.second_hand_hunter import SecondHandHunterService
 from src.services.omni_scraper import OmniScraperService

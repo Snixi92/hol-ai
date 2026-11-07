@@ -11,7 +11,13 @@ import re
 import urllib.parse
 import logging
 from typing import Dict, Any, List, Optional
-from ddgs import DDGS
+try:
+    from duckduckgo_search import DDGS
+except ImportError:
+    try:
+        from ddgs import DDGS
+    except ImportError:
+        DDGS = None
 
 logger = logging.getLogger("hol_ai.second_hand_hunter")
 
@@ -82,33 +88,34 @@ class SecondHandHunterService:
             ("Vinted", f"{clean_q} vinted")
         ]
 
-        try:
-            with DDGS(timeout=3) as ddgs:
-                for platform_name, q in queries:
-                    try:
-                        results = list(ddgs.text(q, region="fr-fr", max_results=2))
-                        for r in results:
-                            title = r.get("title", "")
-                            href = r.get("href", "")
-                            snippet = r.get("body", "")
-                            if not href or not title:
-                                continue
+        if DDGS is not None:
+            try:
+                with DDGS(timeout=3) as ddgs:
+                    for platform_name, q in queries:
+                        try:
+                            results = list(ddgs.text(q, region="fr-fr", max_results=2))
+                            for r in results:
+                                title = r.get("title", "")
+                                href = r.get("href", "")
+                                snippet = r.get("body", "")
+                                if not href or not title:
+                                    continue
 
-                            # Détection de prix dans l'extrait
-                            price_match = re.search(r"(\d+[\,\.]\d{2}|\d+)\s*€", f"{title} {snippet}")
-                            price = price_match.group(0) if price_match else None
+                                # Détection de prix dans l'extrait
+                                price_match = re.search(r"(\d+[\,\.]\d{2}|\d+)\s*€", f"{title} {snippet}")
+                                price = price_match.group(0) if price_match else None
 
-                            extracted.append({
-                                "platform": platform_name,
-                                "title": title,
-                                "url": href,
-                                "estimated_price": price,
-                                "snippet": snippet[:140] + "..." if len(snippet) > 140 else snippet
-                            })
-                    except Exception:
-                        pass
-        except Exception as e:
-            logger.warning(f"Erreur scraping second hand : {e}")
+                                extracted.append({
+                                    "platform": platform_name,
+                                    "title": title,
+                                    "url": href,
+                                    "estimated_price": price,
+                                    "snippet": snippet[:140] + "..." if len(snippet) > 140 else snippet
+                                })
+                        except Exception:
+                            pass
+            except Exception as e:
+                logger.warning(f"Erreur scraping second hand : {e}")
 
         if len(cls._second_hand_cache) > cls.MAX_CACHE_SIZE:
             cls._second_hand_cache = dict(list(cls._second_hand_cache.items())[-250:])

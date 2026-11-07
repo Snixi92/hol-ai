@@ -375,9 +375,12 @@ class OmniScraperService:
         extracted = []
         try:
             try:
-                from ddgs import DDGS
-            except ImportError:
                 from duckduckgo_search import DDGS
+            except ImportError:
+                try:
+                    from ddgs import DDGS
+                except ImportError:
+                    DDGS = None
             with DDGS(timeout=3) as ddgs:
                 results = list(ddgs.text(search_terms, region="fr-fr", max_results=max_results))
                 for r in results:
