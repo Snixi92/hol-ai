@@ -1538,9 +1538,11 @@ class CognitiveAgentEngine:
 
             # Création de la session de chat avec Automatic Function Calling et bascule multi-modèles résiliente
             candidate_models = []
+            if requested_model == "gemini-2.5-flash":
+                requested_model = "gemini-3.5-flash-lite"
             if requested_model:
                 candidate_models.append(requested_model)
-            for default_cand in ["gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.5-flash"]:
+            for default_cand in ["gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-flash-lite-latest"]:
                 if default_cand not in candidate_models:
                     candidate_models.append(default_cand)
 

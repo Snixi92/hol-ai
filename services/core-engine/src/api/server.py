@@ -430,6 +430,9 @@ async def chat_stream_endpoint(req: ChatMessageRequest):
             logger.debug(f"Stream queue put error: {e}")
 
     async def execute_task():
+        combined_prefix = ''
+        app_prefix = ''
+        tool_prefix = ''
         try:
             from src.services.cognitive_engine import CognitiveAgentEngine
             if CognitiveAgentEngine.is_available():
@@ -557,6 +560,7 @@ async def chat_stream_endpoint(req: ChatMessageRequest):
                     final_cards.append({"type": "search_hub", "data": log_data})
 
             final_cards, app_prefix = check_and_execute_app_intent(effective_message, session, final_cards)
+            combined_prefix = app_prefix or ""
             from src.services.llm_engine import LLMBrain
             if LLMBrain.get_api_key():
                 raw_summary = await LLMBrain.generate_conversational_response(
@@ -565,7 +569,12 @@ async def chat_stream_endpoint(req: ChatMessageRequest):
                     context_history=session.get_formatted_history(max_turns=10)
                 )
             else:
-                raw_summary = getattr(result, "synthesized_summary", str(result))
+                msg_lower = effective_message.lower().strip()
+                greetings = ["yoo", "yo", "salut", "bonjour", "hello", "coucou", "wesh", "hey", "cc", "cv", "ca va", "ça va"]
+                if any(msg_lower == g or msg_lower.startswith(g + " ") for g in greetings):
+                    raw_summary = "Yoo ! C'est HoL AI. Comment puis-je t'aider aujourd'hui ? Tu veux chercher un produit, suivre une livraison ou organiser tes tâches ?"
+                else:
+                    raw_summary = getattr(result, "synthesized_summary", str(result)) or "Comment puis-je t'aider ?"
 
             cleaned_reply = sanitize_ai_excuses(raw_summary, combined_prefix)
             session.add_assistant_message(cleaned_reply, final_cards)

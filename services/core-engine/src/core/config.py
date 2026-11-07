@@ -28,7 +28,7 @@ class Settings(BaseSettings):
 
     # IA & LLM
     GEMINI_API_KEY: Optional[str] = None
-    DEFAULT_MODEL: str = "gemini-2.5-flash"
+    DEFAULT_MODEL: str = "gemini-3.5-flash-lite"
 
     # Budgets et Timeouts
     DEFAULT_TOKEN_BUDGET: int = 4096
