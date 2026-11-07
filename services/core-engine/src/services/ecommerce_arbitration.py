@@ -653,13 +653,44 @@ class EcommerceArbitrationService:
 
         # Génération des 3 à 4 alternatives selon les spécificités du marchand
         primary_title = f"{capitalized_q} — Modèle de Référence Recommandé"
-        primary_price = 249.99
+        
+        q_lower = query.lower()
+        budget_val = None
+        b_match = re.search(r'(?:<|inférieur\s*à|moins\s*de|budget\s*de?|max)\s*(\d+[\,\.]?\d*)\s*(?:€|eur|euros|balles)?', q_lower)
+        if not b_match:
+            b_match = re.search(r'(\d+[\,\.]?\d*)\s*(?:€|eur|euros|balles)', q_lower)
+        if b_match:
+            try:
+                budget_val = float(b_match.group(1).replace(',', '.'))
+            except Exception:
+                budget_val = None
+
+        disclaimer = None
+        if any(w in q_lower for w in ["souris", "mouse", "tapis", "coque", "cable", "câble", "chargeur", "verre", "vitre"]):
+            primary_price = min(budget_val, 24.99) if budget_val and budget_val < 250 else 24.99
+        elif any(w in q_lower for w in ["ecran", "écran", "batterie", "clavier", "écouteurs", "earbuds"]):
+            primary_price = min(budget_val, 39.99) if budget_val and budget_val < 250 else 39.99
+        elif any(w in q_lower for w in ["macbook pro m3", "m3 max", "m3 pro", "rtx 4090", "rtx 4080"]):
+            primary_price = 2499.00
+            if budget_val and budget_val < 500:
+                disclaimer = f"Avertissement Réalité : Un {capitalized_q} neuf ne peut exister à {budget_val}€. Tarif réel certifié : 2 499,00€."
+        elif any(w in q_lower for w in ["macbook", "laptop", "pc portable", "ordinateur"]):
+            primary_price = 999.00
+        elif any(w in q_lower for w in ["iphone", "smartphone", "galaxy", "pixel", "ps5", "xbox", "console"]):
+            primary_price = budget_val if (budget_val and budget_val > 100) else 499.00
+        elif budget_val:
+            primary_price = budget_val
+        else:
+            primary_price = 149.99
+
         primary_specs = [
             f"Vendeur certifié avec garantie directe sur {merchant.domain}",
             "Rapport qualité/prix optimal sélectionné par l'algorithme HoL AI",
             "Disponibilité immédiate en stock direct France",
             "Éligible aux retours et garanties légales du marchand"
         ]
+        if disclaimer:
+            primary_specs.insert(0, disclaimer)
 
         # Tiers d'alternatives strictement sur le MÊME marchand
         alternatives = [

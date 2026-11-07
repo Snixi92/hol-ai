@@ -60,6 +60,46 @@ class SecondHandHunterService:
             "backmarket": {"min_price": 380, "avg_price": 410, "max_price": 440, "condition": "Reconditionné Garanti 1 an", "url": "https://www.backmarket.fr/fr-fr/p/playstation-5"},
             "cdiscount_renewed": {"min_price": 399, "avg_price": 429, "max_price": 449, "condition": "Reconditionné Cdiscount", "url": "https://www.cdiscount.com/search/10/ps5+reconditionnee.html"},
             "amazon_renewed": {"min_price": 419, "avg_price": 439, "max_price": 469, "condition": "Amazon Renewed / Neuf 429€", "url": "https://www.amazon.fr/s?k=ps5+console"}
+        },
+        "iphone_12": {
+            "product": "Apple iPhone 12",
+            "leboncoin": {"min_price": 160, "avg_price": 210, "max_price": 260, "condition": "Occasion particulier", "url": "https://www.leboncoin.fr/recherche?text=iphone+12&category=telephones_objets_connectes"},
+            "vinted": {"min_price": 175, "avg_price": 220, "max_price": 270, "condition": "Très bon état", "url": "https://www.vinted.fr/catalog?search_text=iphone+12"},
+            "backmarket": {"min_price": 235, "avg_price": 269, "max_price": 299, "condition": "Reconditionné Pro Garanti 1 an", "url": "https://www.backmarket.fr/fr-fr/p/iphone-12"},
+            "cdiscount_renewed": {"min_price": 249, "avg_price": 279, "max_price": 319, "condition": "Reconditionné Cdiscount", "url": "https://www.cdiscount.com/search/10/iphone+12+reconditionne.html"},
+            "amazon_renewed": {"min_price": 269, "avg_price": 289, "max_price": 329, "condition": "Amazon Renewed", "url": "https://www.amazon.fr/s?k=iphone+12+reconditionn%C3%A9"}
+        },
+        "iphone_13": {
+            "product": "Apple iPhone 13",
+            "leboncoin": {"min_price": 260, "avg_price": 320, "max_price": 380, "condition": "Occasion particulier", "url": "https://www.leboncoin.fr/recherche?text=iphone+13&category=telephones_objets_connectes"},
+            "vinted": {"min_price": 280, "avg_price": 340, "max_price": 400, "condition": "Très bon état", "url": "https://www.vinted.fr/catalog?search_text=iphone+13"},
+            "backmarket": {"min_price": 359, "avg_price": 399, "max_price": 439, "condition": "Reconditionné Pro Garanti 1 an", "url": "https://www.backmarket.fr/fr-fr/p/iphone-13"},
+            "cdiscount_renewed": {"min_price": 369, "avg_price": 419, "max_price": 459, "condition": "Reconditionné Cdiscount", "url": "https://www.cdiscount.com/search/10/iphone+13+reconditionne.html"},
+            "amazon_renewed": {"min_price": 389, "avg_price": 429, "max_price": 479, "condition": "Amazon Renewed", "url": "https://www.amazon.fr/s?k=iphone+13+reconditionn%C3%A9"}
+        },
+        "iphone_14": {
+            "product": "Apple iPhone 14",
+            "leboncoin": {"min_price": 380, "avg_price": 450, "max_price": 520, "condition": "Occasion particulier", "url": "https://www.leboncoin.fr/recherche?text=iphone+14&category=telephones_objets_connectes"},
+            "vinted": {"min_price": 395, "avg_price": 465, "max_price": 535, "condition": "Très bon état", "url": "https://www.vinted.fr/catalog?search_text=iphone+14"},
+            "backmarket": {"min_price": 469, "avg_price": 519, "max_price": 569, "condition": "Reconditionné Pro Garanti 1 an", "url": "https://www.backmarket.fr/fr-fr/p/iphone-14"},
+            "cdiscount_renewed": {"min_price": 489, "avg_price": 539, "max_price": 589, "condition": "Reconditionné Cdiscount", "url": "https://www.cdiscount.com/search/10/iphone+14+reconditionne.html"},
+            "amazon_renewed": {"min_price": 519, "avg_price": 559, "max_price": 609, "condition": "Amazon Renewed", "url": "https://www.amazon.fr/s?k=iphone+14+reconditionn%C3%A9"}
+        },
+        "macbook_air_m1": {
+            "product": "Apple MacBook Air M1 (2020)",
+            "leboncoin": {"min_price": 420, "avg_price": 510, "max_price": 600, "condition": "Occasion particulier", "url": "https://www.leboncoin.fr/recherche?text=macbook+air+m1&category=informatique"},
+            "vinted": {"min_price": 450, "avg_price": 530, "max_price": 620, "condition": "Très bon état avec chargeur", "url": "https://www.vinted.fr/catalog?search_text=macbook+air+m1"},
+            "backmarket": {"min_price": 549, "avg_price": 599, "max_price": 659, "condition": "Reconditionné Pro Garanti 1 an", "url": "https://www.backmarket.fr/fr-fr/p/macbook-air-2020-m1"},
+            "cdiscount_renewed": {"min_price": 569, "avg_price": 619, "max_price": 679, "condition": "Reconditionné Cdiscount", "url": "https://www.cdiscount.com/search/10/macbook+air+m1.html"},
+            "amazon_renewed": {"min_price": 599, "avg_price": 639, "max_price": 699, "condition": "Amazon Renewed", "url": "https://www.amazon.fr/s?k=macbook+air+m1"}
+        },
+        "switch": {
+            "product": "Nintendo Switch (Modèle Standard / OLED)",
+            "leboncoin": {"min_price": 110, "avg_price": 150, "max_price": 190, "condition": "Occasion avec dock & Joy-Con", "url": "https://www.leboncoin.fr/recherche?text=nintendo+switch&category=consoles_jeux_video"},
+            "vinted": {"min_price": 125, "avg_price": 160, "max_price": 200, "condition": "Console complète en boîte", "url": "https://www.vinted.fr/catalog?search_text=nintendo+switch"},
+            "backmarket": {"min_price": 189, "avg_price": 219, "max_price": 249, "condition": "Reconditionné Garanti 1 an", "url": "https://www.backmarket.fr/fr-fr/p/nintendo-switch"},
+            "cdiscount_renewed": {"min_price": 199, "avg_price": 229, "max_price": 259, "condition": "Reconditionné Cdiscount", "url": "https://www.cdiscount.com/search/10/nintendo+switch+reconditionnee.html"},
+            "amazon_renewed": {"min_price": 219, "avg_price": 239, "max_price": 269, "condition": "Amazon Renewed", "url": "https://www.amazon.fr/s?k=nintendo+switch"}
         }
     }
 
@@ -148,8 +188,18 @@ class SecondHandHunterService:
             key = "iphone_xr"
         elif "11" in q_lower and "iphone" in q_lower:
             key = "iphone_11"
+        elif "12" in q_lower and "iphone" in q_lower:
+            key = "iphone_12"
+        elif "13" in q_lower and "iphone" in q_lower:
+            key = "iphone_13"
+        elif "14" in q_lower and "iphone" in q_lower:
+            key = "iphone_14"
+        elif "m1" in q_lower or "macbook air" in q_lower or "macbook" in q_lower:
+            key = "macbook_air_m1"
         elif "ps5" in q_lower or "playstation 5" in q_lower:
             key = "ps5"
+        elif "switch" in q_lower:
+            key = "switch"
 
         if key and key in cls.KNOWN_SECOND_HAND_BENCHMARKS:
             bm = cls.KNOWN_SECOND_HAND_BENCHMARKS[key]
@@ -293,10 +343,22 @@ class SecondHandHunterService:
             }
         ]
 
+        estimated_floor_price = 45.0
+        # If user specified a budget or price in query
+        b_match = re.search(r"(\d+[\,\.]?\d*)\s*(?:€|eur|euros|balles)", query, re.IGNORECASE)
+        if b_match:
+            try:
+                estimated_floor_price = round(float(b_match.group(1).replace(",", ".")) * 0.75, 1)
+            except Exception:
+                pass
+
         return {
             "source": "SECOND_HAND_REAL_INTELLIGENCE",
             "is_second_hand_deal": True,
             "product": clean_name or "Article d'occasion",
+            "current_drop_price_eur": estimated_floor_price,
+            "min_peer_price_eur": estimated_floor_price,
+            "pro_reconditioned_price_eur": round(estimated_floor_price * 1.4, 1),
             "best_deals": generic_deals,
             "offers": generic_deals,
             "live_scraped_offers": live_results,

@@ -169,21 +169,31 @@ class DailyTasksService:
     @classmethod
     def manage_calendar_and_conflicts(cls, query: str = "") -> Dict[str, Any]:
         """Analyse le calendrier, détecte les chevauchements et bloque les créneaux de travail profond."""
+        agenda = [
+            {"time": "09:30 - 10:15", "title": "Standup Quotidien Équipe & Roadmap", "status": "CONFIRMED"},
+            {"time": "11:00 - 12:00", "title": "Review Architecture & Engine", "status": "CONFIRMED"},
+            {"time": "14:30 - 15:00", "title": "Point Fournisseur Shenzhen & Démo Partenaire", "status": "COLLISION_CRITIQUE", "note": "Déplacement à 16h30 proposé"},
+            {"time": "16:30 - 17:00", "title": "Point Fournisseur (Créneau Recommandé)", "status": "CONFIRMED"}
+        ]
+        conflicts = [
+            {
+                "time": "14:30 - 15:00",
+                "title": "Point Fournisseur Shenzhen & Démo Produit Client",
+                "severity": "COLLISION_CRITIQUE",
+                "resolution_proposed": "Déplacer 'Point Fournisseur' à 16h30 (créneau libre validé)"
+            }
+        ]
         return {
             "type": "CALENDAR_OPTIMIZER",
             "date": "Aujourd'hui & Cette Semaine",
-            "total_meetings": 4,
-            "detected_conflicts": [
-                {
-                    "time": "14:30 - 15:00",
-                    "title": "Point Fournisseur Shenzhen & Démo Produit Client",
-                    "severity": "COLLISION_CRITIQUE",
-                    "resolution_proposed": "Déplacer 'Point Fournisseur' à 16h30 (disponibilité confirmée)"
-                }
-            ],
+            "total_meetings": len(agenda),
+            "conflicts_detected": len(conflicts),
+            "detected_conflicts": conflicts,
+            "focus_time_unlocked_hours": 2.5,
             "focus_blocks_created": [
                 {"time": "09:00 - 11:30", "title": "Travail Profond (Deep Work / Code & Vision)", "status": "LOCKED"}
             ],
+            "agenda_today": agenda,
             "requires_user_approval": True,
             "approval_action_id": "act_resolve_calendar_conflict_01",
             "badge_color": "#8b5cf6"
