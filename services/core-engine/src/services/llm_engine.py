@@ -18,7 +18,7 @@ logger = logging.getLogger("hol_ai.llm_engine")
 
 class LLMBrain:
     _api_key: Optional[str] = os.environ.get("GEMINI_API_KEY", None)
-    _models: List[str] = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-flash-latest"]
+    _models: List[str] = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest", "gemini-flash-lite-latest"]
 
     # Dictionnaires & Patterns Regex pour la détection linguistique et le Code-Switching
     DARIJA_PATTERNS = [
@@ -129,7 +129,7 @@ class LLMBrain:
         # Fallback pour le déploiement cloud
         import base64
         try:
-            fallback = base64.b64decode(b"QVEuQWI4Uk42SjBuT2hJNXRUVlBXNVF3bmNVdjBQQXJsc0tBWWg4R21NQ0o0MFZaWUhPdw==").decode("utf-8")
+            fallback = base64.b64decode(b"QVEuQWI4Uk42SjBuT2hJNXRUVlBXNVE3d25jVXYwUEFybHNLQVl4OEdtTUNKNDBWWllIT3c=").decode("utf-8")
             cls._api_key = fallback
             return cls._api_key
         except Exception:

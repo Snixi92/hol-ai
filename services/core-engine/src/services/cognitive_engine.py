@@ -1542,7 +1542,7 @@ class CognitiveAgentEngine:
                 requested_model = "gemini-3.5-flash-lite"
             if requested_model:
                 candidate_models.append(requested_model)
-            for default_cand in ["gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-flash-lite-latest"]:
+            for default_cand in ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest", "gemini-flash-lite-latest"]:
                 if default_cand not in candidate_models:
                     candidate_models.append(default_cand)
 
