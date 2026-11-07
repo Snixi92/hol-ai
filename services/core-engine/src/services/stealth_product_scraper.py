@@ -13,7 +13,10 @@ import re
 import time
 import urllib.parse
 from typing import Dict, Any, List, Optional, Tuple
-from playwright.sync_api import sync_playwright
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    sync_playwright = None
 
 logger = logging.getLogger("hol_ai.stealth_scraper")
 
@@ -264,6 +267,8 @@ class StealthProductScraper:
         search_url = f"{cls.AMAZON_FR_BASE}/s?k={encoded}"
 
         try:
+            if not sync_playwright:
+                raise RuntimeError("Playwright non disponible dans cet environnement.")
             with sync_playwright() as p:
                 browser = p.chromium.launch(
                     headless=True,

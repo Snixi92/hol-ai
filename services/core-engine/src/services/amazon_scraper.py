@@ -7,7 +7,10 @@ import logging
 import re
 import urllib.parse
 from typing import Dict, Any, Optional, List
-from playwright.async_api import async_playwright, Browser, Page
+try:
+    from playwright.async_api import async_playwright, Browser, Page
+except ImportError:
+    async_playwright, Browser, Page = None, None, None
 
 logger = logging.getLogger("hol_ai.amazon_scraper")
 
@@ -30,6 +33,10 @@ class AmazonRealScraper:
         Scrape en direct un produit Amazon via son URL exacte ou sa recherche.
         Bypasse les cookies et extrait le vrai prix, le stock et le statut Prime.
         """
+        if not async_playwright:
+            logger.info("Playwright non disponible, fallback intelligent immédiat.")
+            return cls._fallback_response(query_or_url, target_price, error_msg="Playwright non installé")
+
         async with async_playwright() as p:
             browser: Browser = await p.chromium.launch(
                 headless=True,

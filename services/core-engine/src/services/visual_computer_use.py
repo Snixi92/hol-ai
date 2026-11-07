@@ -11,7 +11,10 @@ import base64
 import logging
 import time
 from typing import Dict, Any, List, Optional, Set
-from playwright.async_api import async_playwright, Browser, BrowserContext, Page, CDPSession
+try:
+    from playwright.async_api import async_playwright, Browser, BrowserContext, Page, CDPSession
+except ImportError:
+    async_playwright, Browser, BrowserContext, Page, CDPSession = None, None, None, None, None
 
 logger = logging.getLogger("hol_ai.visual_computer_use")
 
@@ -90,6 +93,10 @@ class VisualComputerUseService:
                     pass
                 await self._broadcast_status(f"Prêt sur {self.current_url}", loading=False)
             return {"status": "already_running", "url": self.current_url}
+
+        if not async_playwright:
+            logger.warning("Playwright non disponible pour VisualComputerUseService.")
+            return {"status": "error", "message": "Playwright non disponible dans cet environnement."}
 
         try:
             await self._broadcast_status("Lancement du moteur Chromium (Playwright)...", loading=True)
