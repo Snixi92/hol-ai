@@ -41,12 +41,18 @@ class DailyTasksService:
                 mail.select("INBOX", readonly=True)
 
                 status, data = mail.search(None, "UNSEEN")
-                if status == "OK" and data and data[0]:
-                    email_ids = data[0].split()
-                    total_unread = len(email_ids)
+                email_ids = data[0].split() if (status == "OK" and data and data[0]) else []
+                total_unread = len(email_ids)
+
+                if not email_ids:
+                    # Si aucun e-mail non lu, scanner les derniers e-mails récents de la boîte
+                    status, data = mail.search(None, "ALL")
+                    email_ids = data[0].split() if (status == "OK" and data and data[0]) else []
+
+                if email_ids:
                     important_urgent = []
 
-                    # Analyser les 5 derniers e-mails non lus
+                    # Analyser les 5 derniers e-mails
                     for e_id in reversed(email_ids[-5:]):
                         res, msg_data = mail.fetch(e_id, "(BODY.PEEK[HEADER.FIELDS (SUBJECT FROM DATE)])")
                         if res == "OK":
@@ -67,6 +73,10 @@ class DailyTasksService:
                             if isinstance(sender, bytes):
                                 sender = sender.decode(decoded_from[1] or "utf-8", errors="ignore")
 
+                            # Décoder la date
+                            date_header = msg.get("Date", "")
+                            date_str = str(date_header).strip()
+
                             action = "Consulter le message"
                             draft = None
                             subj_lower = str(subject).lower()
@@ -83,6 +93,7 @@ class DailyTasksService:
                             item = {
                                 "from": str(sender),
                                 "subject": str(subject),
+                                "date": date_str,
                                 "action_suggested": action
                             }
                             if draft:
@@ -91,14 +102,15 @@ class DailyTasksService:
 
                     mail.logout()
 
+                    effective_unread = total_unread if total_unread > 0 else len(email_ids)
                     return {
                         "is_live_gmail": True,
                         "account": gmail_user,
-                        "unread_scanned": total_unread,
+                        "unread_scanned": effective_unread,
                         "important_urgent": important_urgent,
-                        "marketing_newsletters_archived": max(0, total_unread - len(important_urgent)),
+                        "marketing_newsletters_archived": max(0, effective_unread - len(important_urgent)),
                         "security_alerts": 0,
-                        "time_saved_minutes": max(10, total_unread * 2)
+                        "time_saved_minutes": max(10, effective_unread * 2)
                     }
             except Exception as e:
                 logger.warning(f"Erreur IMAP Gmail live, bascule sur simulateur : {e}")

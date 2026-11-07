@@ -75,9 +75,42 @@ class ConversationSession:
             self.history.pop(0)
 
     def get_formatted_history(self, max_turns: int = 10) -> List[Dict[str, str]]:
-        """Retourne l'historique au format standard [{'role': 'user'|'assistant', 'content': '...'}]"""
+        """Retourne l'historique au format standard [{'role': 'user'|'assistant', 'content': '...'}] enrichi des données contextuelles des cartes."""
         recent = self.history[-max_turns:]
-        return [{"role": t.role, "content": t.content} for t in recent]
+        formatted = []
+        for t in recent:
+            content = t.content
+            if t.role == "assistant" and t.cards:
+                extra_cards_info = []
+                for c in t.cards:
+                    ctype = c.get("type")
+                    cdata = c.get("data")
+                    if not isinstance(cdata, dict):
+                        continue
+                    if ctype == "inbox":
+                        mails = cdata.get("important_urgent", [])
+                        if mails:
+                            m_lines = [f"• De: {m.get('from')} | Sujet: {m.get('subject')} | Action: {m.get('action_suggested')}" for m in mails]
+                            extra_cards_info.append(f"[Données réelles E-mails consultés ({cdata.get('account')}):\n" + "\n".join(m_lines) + "]")
+                    elif ctype in ("deal", "second_hand_deals"):
+                        prod = cdata.get("product") or cdata.get("title")
+                        price = cdata.get("current_drop_price_eur") or cdata.get("price")
+                        plat = cdata.get("platform")
+                        if prod:
+                            extra_cards_info.append(f"[Offre trouvée: {prod} à {price}€ sur {plat}]")
+                    elif ctype == "calendar":
+                        meetings = cdata.get("agenda_today", [])
+                        if meetings:
+                            meet_lines = [f"• {m.get('time')}: {m.get('title')}" for m in meetings]
+                            extra_cards_info.append(f"[Agenda du jour:\n" + "\n".join(meet_lines) + "]")
+                    elif ctype == "logistics":
+                        extra_cards_info.append(f"[Suivi colis: {cdata.get('carrier')} ({cdata.get('tracking_number')}) - Statut: {cdata.get('current_location')}]")
+                    elif ctype == "finance":
+                        extra_cards_info.append(f"[Calcul financier: CA HT {cdata.get('revenue_ht')}€, TVA {cdata.get('vat_20_percent')}€, Marge {cdata.get('net_profit_eur')}€ ({cdata.get('margin_percent')}%)")
+                if extra_cards_info:
+                    content = content + "\n\n" + "\n".join(extra_cards_info)
+            formatted.append({"role": t.role, "content": content})
+        return formatted
 
 
 class SessionManager:

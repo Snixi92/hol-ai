@@ -6706,6 +6706,361 @@ ${escapeHtml(planContent)}
 
                 `;
 
+            } else if (type === 'inbox') {
+                const acc = data.account || 'Gmail';
+                const unread = data.unread_scanned || 0;
+                const emails = data.important_urgent || [];
+                const archived = data.marketing_newsletters_archived || 0;
+                const timeSaved = data.time_saved_minutes || 25;
+                const isLive = data.is_live_gmail !== false;
+
+                return `
+                    <div class="inbox-card p-4 rounded-2xl bg-white dark:bg-[#121216] border border-sky-500/30 shadow-xl space-y-3.5 text-xs"
+                         style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(0, 0, 0, 0.3) 100%), rgba(18, 18, 24, 0.75); backdrop-filter: blur(24px); box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.16), 0 20px 40px -15px rgba(0, 0, 0, 0.6);">
+                        
+                        <!-- Header Boite Mail -->
+                        <div class="flex items-center justify-between pb-2.5 border-b border-slate-200 dark:border-white/10">
+                            <div class="flex items-center space-x-2.5 truncate">
+                                <span class="p-2 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex-shrink-0">
+                                    <i data-lucide="mail" class="w-4 h-4 inline"></i>
+                                </span>
+                                <div class="truncate">
+                                    <div class="font-bold text-slate-900 dark:text-white text-xs flex items-center space-x-1.5 truncate">
+                                        <span class="truncate">Boîte de réception : ${escapeHtml(acc)}</span>
+                                        ${isLive ? `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" title="Connecté en direct"></span>` : ''}
+                                    </div>
+                                    <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono mt-0.5">
+                                        ${unread} messages non lus analysés • Tri intelligent actif
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-sky-500/20 border border-sky-500/30 text-sky-400 text-[10px] font-mono font-bold flex-shrink-0">
+                                ${emails.length} Messages
+                            </span>
+                        </div>
+
+                        <!-- Liste des e-mails identifies -->
+                        <div class="space-y-2">
+                            ${emails.map((em, idx) => `
+                                <div class="p-3 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5 hover:border-sky-500/30 transition space-y-2">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <div class="flex items-center space-x-2 truncate flex-1">
+                                            <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-300 font-bold flex items-center justify-center text-[10px] flex-shrink-0">
+                                                ${escapeHtml((em.from || 'M').charAt(0).toUpperCase())}
+                                            </span>
+                                            <span class="font-semibold text-slate-900 dark:text-neutral-200 text-xs truncate">
+                                                ${escapeHtml(em.from || 'Inconnu')}
+                                            </span>
+                                        </div>
+                                        ${em.date ? `<span class="text-[9px] text-slate-400 font-mono flex-shrink-0">${escapeHtml(em.date.split(' ').slice(0, 4).join(' '))}</span>` : ''}
+                                    </div>
+
+                                    <div class="text-xs font-bold text-slate-800 dark:text-white leading-snug">
+                                        ${escapeHtml(em.subject || 'Sans sujet')}
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-1">
+                                        <span class="text-[10px] px-2 py-0.5 rounded-md bg-white/10 dark:bg-white/5 border border-white/10 text-slate-600 dark:text-neutral-300 flex items-center space-x-1">
+                                            <i data-lucide="check-circle-2" class="w-3 h-3 text-sky-400 inline"></i>
+                                            <span>${escapeHtml(em.action_suggested || 'Consulter')}</span>
+                                        </span>
+                                        ${em.draft_reply ? `
+                                            <button type="button" 
+                                                    onclick="this.nextElementSibling.classList.toggle('hidden')" 
+                                                    class="tactile-btn text-[10px] text-sky-400 hover:text-sky-300 font-semibold flex items-center space-x-1">
+                                                <i data-lucide="edit-3" class="w-3 h-3 inline"></i>
+                                                <span>Voir brouillon</span>
+                                            </button>
+                                        ` : ''}
+                                    </div>
+
+                                    ${em.draft_reply ? `
+                                        <div class="hidden p-2 rounded-lg bg-black/40 border border-sky-500/20 text-[11px] text-neutral-300 italic">
+                                            "${escapeHtml(em.draft_reply)}"
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Footer avec metriques et stats -->
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-white/10 text-[10px] text-slate-500 dark:text-neutral-400">
+                            <span class="flex items-center space-x-1">
+                                <i data-lucide="archive" class="w-3.5 h-3.5 text-neutral-400"></i>
+                                <span>${archived} newsletters archivées</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 font-mono font-semibold">
+                                ⏱️ ~${timeSaved} min économisées
+                            </span>
+                        </div>
+                    </div>
+                `;
+
+            } else if (type === 'tool_calls_section' || type === 'tool_calls') {
+                const tools = data.tool_calls || [];
+                const totalLatency = data.total_latency_ms || 0;
+                const isExpanded = data.default_expanded !== false;
+
+                return `
+                    <details class="tool-calls-accordion group my-2 rounded-xl bg-white/5 border border-white/10 overflow-hidden text-xs" ${isExpanded ? 'open' : ''}>
+                        <summary class="py-2 px-3.5 cursor-pointer font-semibold text-neutral-300 flex items-center space-x-2 select-none hover:bg-white/5 transition">
+                            <i data-lucide="cpu" class="w-3.5 h-3.5 text-neutral-400"></i>
+                            <span class="text-xs font-bold text-white">Intégrations & Outils exécutés (${tools.length})</span>
+                            ${totalLatency ? `<span class="text-[10px] font-mono text-neutral-400 ml-1">(${totalLatency} ms)</span>` : ''}
+                            <span class="text-neutral-400 ml-auto group-open:rotate-180 transition-transform duration-200">
+                                <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                            </span>
+                        </summary>
+                        <div class="p-3 border-t border-white/10 space-y-2 bg-black/30">
+                            ${tools.map(t => `
+                                <div class="p-2 rounded-lg bg-white/5 border border-white/5 text-[11px] space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="font-bold text-neutral-200 flex items-center space-x-1.5">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                            <span>${escapeHtml(t.integration_name || t.tool_name || 'Outil')}</span>
+                                        </div>
+                                        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-neutral-400">
+                                            ${escapeHtml(t.tool_name || '')}
+                                        </span>
+                                    </div>
+                                    ${t.message ? `<div class="text-neutral-300 text-[10px]">${escapeHtml(t.message)}</div>` : ''}
+                                    ${t.output ? `<div class="text-neutral-400 font-mono text-[9px] bg-black/40 p-1.5 rounded border border-white/5 truncate">${escapeHtml(typeof t.output === 'object' ? JSON.stringify(t.output) : String(t.output))}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </details>
+                `;
+
+            } else if (type === 'calendar') {
+                const meetings = data.agenda_today || [];
+                const total = data.total_meetings || meetings.length;
+                const focus = data.focus_time_unlocked_hours || 0;
+
+                return `
+                    <div class="calendar-card p-4 rounded-2xl bg-white dark:bg-[#121216] border border-indigo-500/30 shadow-xl space-y-3 text-xs"
+                         style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(0, 0, 0, 0.3) 100%), rgba(18, 18, 24, 0.75); backdrop-filter: blur(24px);">
+                        
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
+                            <div class="flex items-center space-x-2">
+                                <span class="p-2 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                                    <i data-lucide="calendar" class="w-4 h-4 inline"></i>
+                                </span>
+                                <div>
+                                    <div class="font-bold text-slate-900 dark:text-white text-xs">Agenda & Planning Optimisé</div>
+                                    <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">${total} événements analysés</div>
+                                </div>
+                            </div>
+                            ${focus ? `
+                                <span class="px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-mono text-[10px] font-bold">
+                                    +${focus}h Focus Time
+                                </span>
+                            ` : ''}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            ${meetings.map(m => `
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5 flex items-center justify-between">
+                                    <div class="space-y-0.5">
+                                        <div class="font-bold text-slate-900 dark:text-white text-xs">${escapeHtml(m.title || 'Réunion')}</div>
+                                        <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono flex items-center space-x-1">
+                                            <i data-lucide="clock" class="w-3 h-3 text-indigo-400 inline"></i>
+                                            <span>${escapeHtml(m.time || '')}</span>
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-mono text-neutral-300 font-semibold">
+                                        ${escapeHtml(m.status === 'CONFIRMED' ? 'Confirmé' : m.status || 'Planifié')}
+                                    </span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+            } else if (type === 'finance') {
+                const ttc = data.selling_price_ttc || 0;
+                const ht = data.revenue_ht || 0;
+                const vat = data.vat_20_percent || 0;
+                const cost = data.cost_price || 0;
+                const fees = data.fees_eur || 0;
+                const profit = data.net_profit_eur || 0;
+                const margin = data.margin_percent || 0;
+
+                return `
+                    <div class="finance-card p-4 rounded-2xl bg-white dark:bg-[#121216] border border-emerald-500/30 shadow-xl space-y-3 text-xs"
+                         style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(0, 0, 0, 0.3) 100%), rgba(18, 18, 24, 0.75); backdrop-filter: blur(24px);">
+                        
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
+                            <div class="flex items-center space-x-2">
+                                <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                    <i data-lucide="calculator" class="w-4 h-4 inline"></i>
+                                </span>
+                                <div>
+                                    <div class="font-bold text-slate-900 dark:text-white text-xs">Rentabilité & Calcul Financier</div>
+                                    <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">Prix de vente TTC : ${ttc} €</div>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-[11px] font-bold">
+                                ${margin}% Marge
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-[11px]">
+                            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5">
+                                <div class="text-[10px] text-neutral-400">Chiffre d'Affaires HT</div>
+                                <div class="font-bold font-mono text-white text-sm">${ht} €</div>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5">
+                                <div class="text-[10px] text-neutral-400">TVA (20%)</div>
+                                <div class="font-bold font-mono text-neutral-300 text-sm">${vat} €</div>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5">
+                                <div class="text-[10px] text-neutral-400">Coût d'achat & Frais</div>
+                                <div class="font-bold font-mono text-neutral-300 text-sm">${(cost + fees).toFixed(2)} €</div>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                                <div class="text-[10px] text-emerald-400 font-semibold">Bénéfice Net Réel</div>
+                                <div class="font-bold font-mono text-emerald-400 text-sm">+${profit} €</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+            } else if (type === 'grocery') {
+                const recipeName = data.recipe_name || 'Liste de courses';
+                const servings = data.servings || 2;
+                const aisles = data.aisles || {};
+                const total = data.total_estimated_eur || 0;
+                const driveLink = data.one_click_drive_link || 'Monoprix Drive';
+
+                return `
+                    <div class="grocery-card p-4 rounded-2xl bg-white dark:bg-[#121216] border border-amber-500/30 shadow-xl space-y-3 text-xs"
+                         style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(0, 0, 0, 0.3) 100%), rgba(18, 18, 24, 0.75); backdrop-filter: blur(24px);">
+                        
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
+                            <div class="flex items-center space-x-2">
+                                <span class="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                                    <i data-lucide="shopping-bag" class="w-4 h-4 inline"></i>
+                                </span>
+                                <div>
+                                    <div class="font-bold text-slate-900 dark:text-white text-xs">${escapeHtml(recipeName)}</div>
+                                    <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">${servings} personnes • Tri par rayons</div>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 font-mono text-[11px] font-bold">
+                                ~${total} €
+                            </span>
+                        </div>
+
+                        <div class="space-y-2">
+                            ${Object.entries(aisles).map(([aisle, items]) => `
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5 space-y-1">
+                                    <div class="font-bold text-neutral-300 text-[10px] uppercase tracking-wider flex items-center space-x-1">
+                                        <i data-lucide="layers" class="w-3 h-3 text-neutral-400"></i>
+                                        <span>${escapeHtml(aisle)}</span>
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        ${items.map(it => `
+                                            <div class="flex items-center justify-between text-[11px] text-neutral-200 py-0.5">
+                                                <span class="flex items-center space-x-1.5 truncate">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"></span>
+                                                    <span class="truncate">${escapeHtml(it.item || '')}</span>
+                                                </span>
+                                                ${it.estimated_eur != null ? `<span class="font-mono text-[10px] text-neutral-400 flex-shrink-0">${it.estimated_eur > 0 ? it.estimated_eur.toFixed(2) + ' €' : 'Placard'}</span>` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="pt-1">
+                            <button type="button" class="tactile-btn w-full py-2.5 rounded-xl bg-amber-500 text-black hover:bg-amber-400 text-xs font-bold transition flex items-center justify-center space-x-1.5 shadow-md">
+                                <i data-lucide="shopping-cart" class="w-3.5 h-3.5 inline"></i>
+                                <span>Commander en 1 clic sur ${escapeHtml(driveLink)}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+            } else if (type === 'reservation') {
+                const venue = data.venue || 'Restaurant';
+                const date = data.date || 'Ce soir';
+                const time = data.time || '20:00';
+                const guests = data.guests || 2;
+
+                return `
+                    <div class="reservation-card p-4 rounded-2xl bg-white dark:bg-[#121216] border border-rose-500/30 shadow-xl space-y-3 text-xs"
+                         style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 40%, rgba(0, 0, 0, 0.3) 100%), rgba(18, 18, 24, 0.75); backdrop-filter: blur(24px);">
+                        
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
+                            <div class="flex items-center space-x-2">
+                                <span class="p-2 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                                    <i data-lucide="utensils" class="w-4 h-4 inline"></i>
+                                </span>
+                                <div>
+                                    <div class="font-bold text-slate-900 dark:text-white text-xs">${escapeHtml(venue)}</div>
+                                    <div class="text-[10px] text-slate-500 dark:text-neutral-400 font-mono">Pré-réservation en attente de validation</div>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-400 font-mono text-[10px] font-bold">
+                                ${guests} Personnes
+                            </span>
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200 dark:border-white/5 flex items-center justify-around text-center">
+                            <div>
+                                <div class="text-[10px] text-neutral-400">Date</div>
+                                <div class="font-bold text-white text-xs">${escapeHtml(date)}</div>
+                            </div>
+                            <div class="w-px h-6 bg-white/10"></div>
+                            <div>
+                                <div class="text-[10px] text-neutral-400">Heure</div>
+                                <div class="font-bold text-white text-xs">${escapeHtml(time)}</div>
+                            </div>
+                            <div class="w-px h-6 bg-white/10"></div>
+                            <div>
+                                <div class="text-[10px] text-neutral-400">Couverts</div>
+                                <div class="font-bold text-white text-xs">${guests} pers.</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-1">
+                            <button type="button" class="tactile-btn w-full py-2.5 rounded-xl bg-rose-500 text-white hover:bg-rose-600 text-xs font-bold transition flex items-center justify-center space-x-1.5 shadow-md">
+                                <i data-lucide="check" class="w-3.5 h-3.5 inline"></i>
+                                <span>Confirmer la table en 1 clic</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+            } else if (type === 'citations') {
+                const cits = (data && data.citations) || [];
+                if (!cits || cits.length === 0) return '';
+
+                return `
+                    <div class="citations-card p-3 rounded-xl bg-white/5 border border-white/10 space-y-2 text-xs">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 flex items-center space-x-1.5">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5 inline text-neutral-400"></i>
+                            <span>Sources & Références vérifiées (${cits.length}) :</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                            ${cits.map((c, i) => `
+                                <a href="${escapeHtml(c.url || '#')}" target="_blank" rel="noopener noreferrer"
+                                   class="p-2 rounded-lg bg-black/20 hover:bg-white/10 border border-white/5 hover:border-white/20 transition flex items-center space-x-2 truncate">
+                                    <span class="w-4 h-4 rounded-full bg-white/10 text-[9px] font-mono flex items-center justify-center text-neutral-300 flex-shrink-0">
+                                        ${c.index || (i + 1)}
+                                    </span>
+                                    <div class="truncate flex-1">
+                                        <div class="text-[11px] font-semibold text-neutral-200 truncate">${escapeHtml(c.title || c.domain || 'Source')}</div>
+                                        <div class="text-[9px] text-neutral-400 font-mono truncate">${escapeHtml(c.domain || '')}</div>
+                                    </div>
+                                    <i data-lucide="external-link" class="w-3 h-3 text-neutral-400 flex-shrink-0"></i>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
             }
 
             return '';

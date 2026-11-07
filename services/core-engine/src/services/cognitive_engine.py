@@ -474,7 +474,7 @@ class CognitiveAgentEngine:
             "6. Si l'utilisateur cherche une info sur le web général (actualités, météo spécifique, recherche libre) : appelle `search_internet_live`.\n"
             "7. Si l'utilisateur parle d'une recette, d'une vidéo culinaire (Instagram, TikTok) ou d'une liste de courses : appelle `convert_recipe_to_grocery_list`.\n"
             "8. Si l'utilisateur demande de réserver une table, un restaurant ou un dîner : appelle `book_restaurant_table`.\n"
-            "9. Si l'utilisateur demande de trier ses emails ou nettoyer sa boîte de réception : appelle `triage_and_clean_inbox`.\n"
+            "9. Si l'utilisateur demande de voir ses emails, ses derniers mails, de trier ses emails, de vérifier sa boîte de réception, ou demande 'c quoi mes mails', 'c quoi ces mails', 'détails des mails', 'quels mails', 'qui m'a écrit', 'vérifie ma boîte mail', 'mes messages' : appelle SYSTÉMATIQUEMENT `triage_and_clean_inbox`.\n"
             "10. Si l'utilisateur demande d'optimiser son calendrier, régler des conflits d'agenda ou gérer ses réunions : appelle `manage_calendar_and_conflicts`.\n"
             "11. Si l'utilisateur demande d'ouvrir ou lancer une application, un logiciel ou un jeu sur son PC (ex: 'ouvre Lenovo Vantage', 'lance Discord', 'ouvre Chrome', 'lance la calculatrice', 'ouvre Steam', 'lance Word', 'ouvre Spotify', 'lance Fortnite', 'ouvre mes fichiers', 'ouvre l'explorateur', 'ouvre-le', 'lance-la', '7ello') : appelle SYSTÉMATIQUEMENT `launch_application`. Si la demande est double (ex: 'ouvre Lenovo Vantage et cherche les infos...'), appelle OBLIGATOIREMENT `launch_application` pour le logiciel ET le second outil approprié (ex: `search_internet_live`) pour la recherche !\n"
             "12. Si l'utilisateur demande de fermer, quitter ou arrêter une application, un logiciel ou un jeu (ex: 'ferme Discord', 'ferme Chrome', 'arrête Spotify', 'ferme la calculatrice', 'ferme le bloc-notes', 'ferme Steam', 'quitte VS Code', 'ferme Lenovo Vantage', 'ferme mes fichiers', 'ferme l'explorateur', 'ferme-le', 'arrête-le', 'quitte-la', 'seddo') : appelle OBLIGATOIREMENT `close_application`. Tu as l'interdiction FORMELLE d'affirmer qu'une application est fermée sans avoir appelé cet outil !\n"
@@ -767,7 +767,7 @@ class CognitiveAgentEngine:
             return f"Réservation pré-remplie pour {data.get('venue')} ({data.get('date')} à {data.get('time')}, {data.get('guests')} personnes). En attente de validation de l'utilisateur."
 
         def triage_and_clean_inbox() -> str:
-            """Scanne la boîte de réception email, identifie les messages urgents et prépare les brouillons de réponse."""
+            """Scanne et trie la boîte de réception email (Gmail), liste les derniers messages réels non lus ou urgents, affiche leurs expéditeurs, dates et sujets réels, et prépare les brouillons de réponse. Utiliser pour toute demande relative aux emails : 'mes derniers mails', 'c'est quoi ces mails', 'détails des mails', 'qui m'a écrit', 'trier mes emails', 'boîte mail'."""
             emit_status("📬 Tri intelligent de la boîte de réception...", "inbox")
             data = DailyTasksService.clean_and_sort_inbox()
             tool_section = {
@@ -812,7 +812,24 @@ class CognitiveAgentEngine:
             }
             collected_cards.append({"type": "tool_calls_section", "data": tool_section})
             collected_cards.append({"type": "inbox", "data": data})
-            return f"Boîte mail triée : {data.get('unread_scanned')} emails scannés, {len(data.get('important_urgent', []))} messages urgents isolés avec brouillons prêts."
+            urgent_list = data.get("important_urgent", [])
+            lines = []
+            for idx, em in enumerate(urgent_list, 1):
+                from_str = em.get("from", "Inconnu")
+                subj_str = em.get("subject", "Sans sujet")
+                date_str = f" ({em['date']})" if em.get("date") else ""
+                act_str = em.get("action_suggested", "Consulter")
+                draft_str = f" | Brouillon préparé : '{em['draft_reply']}'" if em.get("draft_reply") else ""
+                lines.append(f"{idx}. Expéditeur : {from_str}\n   Sujet : {subj_str}{date_str}\n   Action recommandée : {act_str}{draft_str}")
+
+            emails_summary_text = "\n".join(lines) if lines else "Aucun message urgent spécifique détecté."
+
+            return (
+                f"Boîte de réception {data.get('account')} scannée avec succès ({data.get('unread_scanned')} e-mails non lus analysés).\n"
+                f"Voici les {len(urgent_list)} e-mails réels analysés :\n"
+                f"{emails_summary_text}\n\n"
+                f"CONSIGNE STRICTE POUR TA RÉPONSE : Tu DOIS obligatoirement citer textuellement ces vrais e-mails ci-dessus avec leurs vrais expéditeurs et sujets exacts. Interdiction absolue d'inventer des e-mails fictifs ou imaginaires !"
+            )
 
         def manage_calendar_and_conflicts(details: str = "Calendrier") -> str:
             """Analyse l'agenda et le calendrier, détecte les conflits de réunions et optimise les créneaux libres.
