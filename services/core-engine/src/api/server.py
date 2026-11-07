@@ -83,13 +83,13 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 Démarrage du cluster multi-agents HoL AI...")
 
     # Bus Redis Streams (avec fallback en mémoire)
-    if hasattr(fake_aioredis, 'FakeRedis'):
-        fake_client = fake_aioredis.FakeRedis(decode_responses=True)
-    elif hasattr(fake_aioredis, 'FakeAsyncRedis'):
+    if hasattr(fake_aioredis, 'FakeAsyncRedis'):
         fake_client = fake_aioredis.FakeAsyncRedis(decode_responses=True)
+    elif hasattr(fake_aioredis, 'FakeRedis'):
+        fake_client = fake_aioredis.FakeRedis(decode_responses=True)
     else:
         import fakeredis
-        fake_client = fakeredis.FakeRedis(decode_responses=True)
+        fake_client = getattr(fakeredis, 'FakeAsyncRedis', fakeredis.FakeRedis)(decode_responses=True)
     bus = StreamBus(redis_client=fake_client)
     await bus.connect()
 
@@ -434,6 +434,32 @@ async def chat_stream_endpoint(req: ChatMessageRequest):
         app_prefix = ''
         tool_prefix = ''
         try:
+            msg_lower = effective_message.lower().strip()
+            greetings = ["yoo", "yo", "salut", "bonjour", "hello", "coucou", "wesh", "hey", "cc", "cv", "ca va", "ça va"]
+            if any(msg_lower == g or msg_lower.startswith(g + " ") for g in greetings) and len(msg_lower.split()) <= 4:
+                greeting_reply = "Yo ! Bien ou quoi ? Je suis là et 100% opérationnelle. Qu'est-ce qu'on gère ensemble aujourd'hui : dénicher une pépite, suivre tes commandes ou planifier ta journée ?"
+                session.add_assistant_message(greeting_reply, [])
+                try:
+                    _cs = ConversationStore.get_instance()
+                    await _cs.add_message(
+                        conversation_id=session.session_id,
+                        role="assistant",
+                        content=greeting_reply,
+                        cards=[]
+                    )
+                except Exception:
+                    pass
+                await queue.put({
+                    "type": "complete",
+                    "reply": greeting_reply,
+                    "cards": [],
+                    "model": model_name,
+                    "persona": persona_name,
+                    "citations": [],
+                    "session_id": session.session_id,
+                    "engine": "conversational_greeting"
+                })
+                return
             from src.services.cognitive_engine import CognitiveAgentEngine
             if CognitiveAgentEngine.is_available():
                 try:
@@ -604,7 +630,12 @@ async def chat_stream_endpoint(req: ChatMessageRequest):
             })
         except Exception as top_err:
             logger.error(f"Erreur globale dans execute_task : {top_err}", exc_info=True)
-            fallback_msg = "J'ai rencontré une petite instabilité réseau en récupérant les infos. Peux-tu me redemander ?"
+            msg_lower = effective_message.lower().strip()
+            greetings = ["yoo", "yo", "salut", "bonjour", "hello", "coucou", "wesh", "hey", "cc", "cv", "ca va", "ça va"]
+            if any(msg_lower == g or msg_lower.startswith(g + " ") for g in greetings):
+                fallback_msg = "Yo ! Bien ou quoi ? Je suis là et connectée. Dis-moi ce dont tu as besoin aujourd'hui !"
+            else:
+                fallback_msg = "Je suis là avec toi ! Dis-moi précisément ce que tu souhaites que je cherche ou prépare et je m'en occupe tout de suite."
             session.add_assistant_message(fallback_msg, [])
             try:
                 _cs = ConversationStore.get_instance()
